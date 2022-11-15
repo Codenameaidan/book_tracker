@@ -19,48 +19,49 @@ class MyApp extends StatelessWidget {
       ),
       //i think this needs to be CurReadView() becasue that is our home page
       //uncomment when CurReadView is done
-      //home: const CurReadView(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'), 
+      home: const CurReadView(),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'), 
       
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+//dont use for now
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
 
-  final String title;
+//   final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
 
-class _MyHomePageState extends State<MyHomePage> {
+// class _MyHomePageState extends State<MyHomePage> {
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: TextFormField(
-                  decoration: const InputDecoration(
-                  hintText: 'Search',
-                  )
-            )
-        ),
-        drawer: Drawer(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(title:const Text("Reading")),
-                ListTile(title:const Text("Future Reading")),
-                ListTile(title:const Text("Read")),
-                ListTile(title:const Text("Settings")),
-              ]
-            )
-          )
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//             title: TextFormField(
+//                   decoration: const InputDecoration(
+//                   hintText: 'Search',
+//                   )
+//             )
+//         ),
+//         drawer: Drawer(
+//           child: SingleChildScrollView(
+//             child: Column(
+//               children: [
+//                 ListTile(title:const Text("Reading")),
+//                 ListTile(title:const Text("Future Reading")),
+//                 ListTile(title:const Text("Read")),
+//                 ListTile(title:const Text("Settings")),
+//               ]
+//             )
+//           )
           
-        )
+//         )
       
-    );
-  }
+//     );
+//   }
 }

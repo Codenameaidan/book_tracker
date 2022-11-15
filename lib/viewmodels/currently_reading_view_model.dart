@@ -12,7 +12,7 @@ import '../model/book_view_model.dart';
 
 // A list of books for now
 final List<Book> initialData = List.generate(
-    50,
+    10,
         (index) => Book(
         id: "$index",
         title: "Title",
