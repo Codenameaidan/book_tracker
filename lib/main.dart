@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reading_tracker/services/library_repository.dart';
-
 import 'models/book.dart';
 
 void main() {

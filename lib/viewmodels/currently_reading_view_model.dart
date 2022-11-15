@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import '../model/movie.dart';
+import '../model/book_view_model.dart';
 
 /* 
 * Currently Reading View Model: list of books 
