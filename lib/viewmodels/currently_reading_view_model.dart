@@ -10,7 +10,6 @@ import '../model/book_view_model.dart';
 */
 
 
-
 // A list of books for now
 final List<Book> initialData = List.generate(
     50,
@@ -21,28 +20,23 @@ final List<Book> initialData = List.generate(
         totalPages: 300,
         ));
 
-class MovieViewModel with ChangeNotifier {
-  // All movies (that will be displayed on the Home screen)
-  final List<Movie> _movies = initialData;
-
-  // Retrieve all movies
-  List<Movie> get movies => _movies;
+class CurrReadViewModel with ChangeNotifier {
 
   // Currently reading books that will be shown on the currently reading screen
-  final List<Book> _curList = [];
+  final List<Book> _currList = initialData; //change 
 
-  // Retrieve currently reading books 
-  List<Book> get curList => _curList;
+  // method to Retrieve currently reading books 
+  List<Book> get currList => _currList;
 
   // Adding a book to the current reading list
   void addToList(Book book) {
-    _curList.add(book);
+    _currList.add(book);
     notifyListeners();
   }
 
   // Removing a book from the current reading list
   void removeFromList(Book book) {
-    _curList.remove(book);
+    _currList.remove(book);
     notifyListeners();
   }
 }
