@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   hintText: 'Search',
                   ),
                   onEditingComplete:() {
-                             Navigator.pushNamed(context, searchRoute, arguments: myController.text);
+                      Navigator.pushNamed(context, searchRoute, arguments: myController.text);
                   },
             )
         ),
