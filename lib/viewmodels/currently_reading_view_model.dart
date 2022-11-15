@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-import '../model/book_view_model.dart';
+import 'package:reading_tracker/models/book.dart';
 
 /* 
 * Currently Reading View Model: list of books 
@@ -14,7 +13,7 @@ import '../model/book_view_model.dart';
 final List<Book> initialData = List.generate(
     10,
         (index) => Book(
-        id: "$index",
+        id: index,
         title: "Title",
         author: "Author",
         totalPages: 300,
