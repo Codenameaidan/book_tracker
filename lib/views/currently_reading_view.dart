@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/viewmodels/currently_reading_view_model.dart';
-
+import 'book_view.dart';
 
 class CurReadView extends StatefulWidget {
   const CurReadView({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class _CurReadViewState extends State<CurReadView>{
                         //TODO: any other text visible immediately ?? 
                         //trash icon button to remove book from list 
                         trailing: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.delete_forever,
                             size: 30,
                           ),
@@ -59,8 +59,15 @@ class _CurReadViewState extends State<CurReadView>{
                                 .read<CurrReadViewModel>()
                                 .removeFromList(currentBook);
                             }
-                        ),//icon button close
-                        //TODO: view book button (will be able to remove or add book in that view as well)
+                        ),//icon button close   
+                        //once you click on the book takes you to book view
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const BookView(),
+                            ),
+                          );
+                        },//ontap close
                       ),//ListTile close
                     );//card close
                   }),//item builder and listviewbuilder close
