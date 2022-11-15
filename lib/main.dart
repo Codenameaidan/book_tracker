@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //i think this needs to be CurReadView() becasue that is our home page
+      //uncomment when CurReadView is done
+      //home: const CurReadView(),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'), 
       
     );
   }
