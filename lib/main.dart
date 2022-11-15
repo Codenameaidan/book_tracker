@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/services/library_repository.dart';
 import 'models/book.dart';
-<<<<<<< Updated upstream
-=======
 import 'views/currently_reading_view.dart';
 import 'package:reading_tracker/viewmodels/currently_reading_view_model.dart';
-
->>>>>>> Stashed changes
 
 void main() {
   runApp(ChangeNotifierProvider<CurrReadViewModel>(
@@ -74,4 +70,4 @@ class MyApp extends StatelessWidget {
       
 //     );
 //   }
-}
+// }
