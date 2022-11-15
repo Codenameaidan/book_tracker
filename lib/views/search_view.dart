@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../models/book.dart';
 import '../viewmodels/search_view_model.dart';
 
 class SearchView extends StatelessWidget {
   final String data;
 
-  SearchView(this.data);
+  SearchViewModel searchViewModel;
+  
+  SearchView(this.data, this.searchViewModel);
 
   @override
   Widget build(BuildContext context) {
+
+    List<Book> t;
+    searchViewModel.fetchBooks(data).then((value) => print("TEST"+searchViewModel.books.toString()));
+
+
     return Scaffold(
       body: Center(
     child: Column(
@@ -23,7 +31,7 @@ class SearchView extends StatelessWidget {
               onPressed: (){
                 Navigator.pop(context);
               },
-              child: const Text('Back...'),
+              child: const Text("???"),
             )
           ],
         ),

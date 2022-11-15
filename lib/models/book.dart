@@ -21,10 +21,10 @@ class Book {
 
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
-        id: json['id_google'][0],
+        id: "Test",//json['id_google'][0],
         title: json['title'],
         author: json['author_name'][0],
-        totalPages: json["number_of_pages_median"],
+        totalPages: 50,//json["number_of_pages_median"],
         coverUrl: 'https://covers.openlibrary.org/b/id/${json['cover_i']}-L.jpg'
     );
   }
