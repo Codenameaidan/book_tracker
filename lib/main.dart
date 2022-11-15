@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reading_tracker/services/library_repository.dart';
-
+import 'package:reading_tracker/services/web_service.dart';
+import 'constants.dart';
+import 'router.dart' as LocalRouter;
 import 'models/book.dart';
+import 'viewmodels/search_view_model.dart';
+import 'views/search_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,12 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Book App',
       theme: ThemeData(
         primarySwatch: Colors.lightBlue
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      
+      onGenerateRoute: LocalRouter.Router.generateRoute,
+      initialRoute: homeRoute,
+
     );
   }
 }
@@ -35,14 +41,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  final myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             title: TextFormField(
+                  controller: myController,
                   decoration: const InputDecoration(
                   hintText: 'Search',
-                  )
+                  ),
+                  onEditingComplete:() {
+                             Navigator.pushNamed(context, searchRoute, arguments: myController.text);
+                  },
             )
         ),
         drawer: Drawer(
@@ -56,9 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ]
             )
           )
-          
+
         )
-      
+
     );
   }
 }
