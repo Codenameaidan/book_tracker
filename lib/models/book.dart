@@ -23,8 +23,8 @@ class Book {
     return Book(
         id: "Test",//json['id_google'][0],
         title: json['title'],
-        author: json['author_name'][0],
-        totalPages: 50,//json["number_of_pages_median"],
+        author: json['author_name'] != null ? json['author_name'][0] : "Unknown",
+        totalPages: json["number_of_pages_median"] != null ? json["number_of_pages_median"] : 0,
         coverUrl: 'https://covers.openlibrary.org/b/id/${json['cover_i']}-M.jpg'
     );
   }
