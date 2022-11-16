@@ -1,13 +1,30 @@
+import '../models/book.dart';
 
+class BookViewModel {
 
-/* 
-* Book View Model: this is just one book and how its displayed
-* HAS: page adding + notes adding
-* USED FOR: 
-*   - currently reading view model 
-*   - to be read view model 
-*   - completed read view model 
-*   - search view model 
-*   - book view  
-* NEEDS: library repository 
-*/
+  final Book book;
+
+  BookViewModel({required this.book});
+
+  String get id {
+    return this.book.id;
+  }
+
+  String get title {
+    return this.book.title;
+  }
+
+  String get author {
+    return this.book.author;
+  }
+
+  int get totalPages {
+    return this.book.totalPages;
+  }
+
+    String get coverUrl {
+    return this.book.coverUrl;
+  }
+
+}
+
