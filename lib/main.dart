@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Book App',
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue
+        primarySwatch: Colors.lightBlue,
+        scaffoldBackgroundColor: Color.fromARGB(255, 99, 99, 99)
       ),
 
       onGenerateRoute: LocalRouter.Router.generateRoute,

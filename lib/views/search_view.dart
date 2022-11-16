@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
@@ -16,7 +18,7 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    final myController = TextEditingController();
+    final myController = TextEditingController(text: data);
     //searchViewModel.fetchBooks(data);//.then((value) => print("TEST"+searchViewModel.books.toString()));
 
     return Scaffold(
@@ -41,27 +43,92 @@ class SearchView extends StatelessWidget {
                 //Build Layout for each Search Result
                 snapshot.data!.forEach((book) {
                   results.add(
-                    Row(
-                      children: [
-                        Column(children: [Image.network(book.coverUrl)],),
-                        Column(children: [Text(book.title), Text(book.author),],)
-                      ],
+                  SizedBox(
+                    height: 300.0,
+                    child: Card(
+                      
+                    child:Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 5, // 50%
+                          child: Image.network(book.coverUrl),
+                        ),
+                        Expanded(
+                          flex: 5, // 50%
+                          child: Padding(
+                            padding: EdgeInsets.only(top:20.0, right: 10.0),
+                            child: Column(
+                              
+                              children: [
+                                Expanded(
+                                  flex: 3, // 50%
+                                  child: Text(
+                                      style: TextStyle(fontSize: 24),
+                                      book.title
+                                  )
+                                ),
+                                Expanded(
+                                  flex: 2, // 50%
+                                  child:  Text("By " + book.author)
+                                ),
+                                Expanded(
+                                  flex: 2, // 50%
+                                  child:  TextButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle: const TextStyle(fontSize: 20),
+                                    ),
+                                    onPressed: () {},
+                                    child: const Text('View'),
+                                  ),
 
-                    ),
-                  );
+                                ),
+                            ]
+                          ),
+                          )
+                          //child: Container(color: Colors.green),
+                        ),
+                       
+                      ],
+                    ))));
+                });
+                    /*SizedBox(
+                    height: 300.0,
+                    child: Card(
+                      child:Row(
+                        children: [
+                          Image.network(book.coverUrl),
+                          Column(
+                            children: [
+                            
+                                Text(
+                                    style: TextStyle(fontSize: 24),
+                                    book.title
+                                )
+                              
+                              , Text(book.author)
+                            ]
+                          ),
+                          
+                          
+                        ],
+
+                    )
+                  )));
                   results.add(
                     const Padding(padding: EdgeInsets.only(top: 16))
                   );
-                });
+                });*/
 
                 return Scaffold (
                   appBar: AppBar(
                     title: TextFormField(
                     controller: myController,
                     decoration: const InputDecoration(
+                      
                       hintText: 'Search',
                     ),
                     onEditingComplete:() {
+                        Navigator.pop(context);
                         Navigator.pushNamed(context, searchRoute, arguments: myController.text);
                     },
                     )
