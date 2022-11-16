@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reading_tracker/viewmodels/search_view_model.dart';
-import 'main.dart';
 import 'constants.dart';
+import 'views/currently_reading_view.dart';
 import 'views/search_view.dart';
 
 class Router {
@@ -9,10 +9,10 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => MyHomePage(title: 'Home Page'));
+        return MaterialPageRoute(builder: (_) => const CurReadView());
       case searchRoute:
         var data = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => SearchView(data, new SearchViewModel()));
+        return MaterialPageRoute(builder: (_) => SearchView(data, SearchViewModel()));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
