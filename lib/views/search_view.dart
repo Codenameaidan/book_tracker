@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import '../models/book.dart';
 import '../viewmodels/book_view_model.dart';
 import '../viewmodels/search_view_model.dart';
@@ -14,8 +15,8 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    
-    
+
+    final myController = TextEditingController();
     //searchViewModel.fetchBooks(data);//.then((value) => print("TEST"+searchViewModel.books.toString()));
 
     return Scaffold(
@@ -29,72 +30,69 @@ class SearchView extends StatelessWidget {
 
         child: FutureBuilder(
           future: searchViewModel.fetchBooks(data),
-          
-          
-          builder: (BuildContext context, AsyncSnapshot<List<BookViewModel>> snapshot) 
-          { 
-            List<Widget> children;
-            if (snapshot.hasData) {
-              children = <Widget>[
-                const Icon(
-                  Icons.check_circle_outline,
-                  color: Colors.green,
-                  size: 60,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Text('Result: ${snapshot.data}'),
-                ),
-              ];
-            }else{
-              children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              ),
-            ];
-            }
-            
-            return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
-            ),
-          );
-          }
-        )
-      )
-    );
-          /*
-            child:ListView.builder(
-        itemCount: this.searchViewModel.books.length,
-        itemBuilder: (context, index) {
 
-          final movie = this.searchViewModel.books[index];
 
-          return ListTile(
-            contentPadding: EdgeInsets.all(10),
-            leading: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(movie.coverUrl)
+          builder: (BuildContext context, AsyncSnapshot<List<BookViewModel>> snapshot)
+          {
+                if (snapshot.hasData) {
+
+                var results = <Widget>[];
+
+                //Build Layout for each Search Result
+                snapshot.data!.forEach((book) {
+                  results.add(
+                    Row(
+                      children: [
+                        Column(children: [Image.network(book.coverUrl)],),
+                        Column(children: [Text(book.title), Text(book.author),],)
+                      ],
+
+                    ),
+                  );
+                  results.add(
+                    const Padding(padding: EdgeInsets.only(top: 16))
+                  );
+                });
+
+                return Scaffold (
+                  appBar: AppBar(
+                    title: TextFormField(
+                    controller: myController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search',
+                    ),
+                    onEditingComplete:() {
+                        Navigator.pushNamed(context, searchRoute, arguments: myController.text);
+                    },
+                    )
                   ),
-                  borderRadius: BorderRadius.circular(6)
-              ),
-              width: 50,
-              height: 100,
-            ),
-            title: Text(movie.title),
-          );
-        },
-      ))
-    );
-*/
+                  body: ListView(
+                        children: results
+                      )
+
+                );
+
+              }
+              else {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: CircularProgressIndicator(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: Text('Awaiting result...'),
+                      ),
+                    ]
+                  )
+                );
+              }
+
+
+          })));
   }
 }

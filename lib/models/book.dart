@@ -25,7 +25,7 @@ class Book {
         title: json['title'],
         author: json['author_name'][0],
         totalPages: 50,//json["number_of_pages_median"],
-        coverUrl: 'https://covers.openlibrary.org/b/id/${json['cover_i']}-L.jpg'
+        coverUrl: 'https://covers.openlibrary.org/b/id/${json['cover_i']}-M.jpg'
     );
   }
 
