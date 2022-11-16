@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:reading_tracker/models/book.dart';
+import 'package:flutter/widgets.dart';
+import '../models/book.dart';
 
-/* 
-* Completed Reading View Model: list of books 
+/*
+* Completed Reading View Model: list of books
 * HAS: add book to list + remove book from list
-* USED FOR: Completed reading view  
-* NEEDS: book view model 
+* USED FOR: Completed reading view
+* NEEDS: book view model
 */
 
 
@@ -13,15 +13,16 @@ import 'package:reading_tracker/models/book.dart';
 final List<Book> initialData = List.generate(
     10,
         (index) => Book(
-        id: index,
+        id: "id",
         title: "Title2",
         author: "Author2",
         totalPages: 300,
+        coverUrl: ""
         ));
 
 class CompReadViewModel with ChangeNotifier {
 
-  final List<Book> _compList = initialData; //change 
+  final List<Book> _compList = initialData; //change
 
   List<Book> get compList => _compList;
 

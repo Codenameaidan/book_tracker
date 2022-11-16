@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/viewmodels/currently_reading_view_model.dart';
+import '../constants.dart';
 import 'book_view.dart';
 
 class CurReadView extends StatefulWidget {
@@ -11,6 +12,9 @@ class CurReadView extends StatefulWidget {
 }
 
 class _CurReadViewState extends State<CurReadView>{
+
+final myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var currList = context
@@ -18,19 +22,39 @@ class _CurReadViewState extends State<CurReadView>{
         .currList;
 
     return Scaffold(
-        appBar: AppBar( //copied from main.dart to be consistent
+        appBar: AppBar(
             title: TextFormField(
+                  controller: myController,
                   decoration: const InputDecoration(
                   hintText: 'Search',
-                  )
+                  ),
+                  onEditingComplete:() {
+                      Navigator.pushNamed(context, searchRoute, arguments: myController.text);
+                  },
             )
         ),//appbar close
+        drawer: Drawer(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListTile(title:const Text("Currently Reading")),
+                    ListTile(title:const Text("Want to Read")),
+                    ListTile(title:const Text("Have Read")),
+                    ListTile(title:const Text("Settings")),
+                  ]
+                )
+              )
+          )
+
+        ),
         body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //TODO: add tabs to other views?? 
+            //TODO: add tabs to other views??
             const SizedBox(
               height: 15,
             ),
@@ -47,8 +71,8 @@ class _CurReadViewState extends State<CurReadView>{
                         title: Text(currentBook.title),
                         subtitle:
                         Text(currentBook.author),
-                        //TODO: any other text visible immediately ?? 
-                        //trash icon button to remove book from list 
+                        //TODO: any other text visible immediately ??
+                        //trash icon button to remove book from list
                         trailing: IconButton(
                           icon: const Icon(
                             Icons.delete_forever,
@@ -59,7 +83,7 @@ class _CurReadViewState extends State<CurReadView>{
                                 .read<CurrReadViewModel>()
                                 .removeFromList(currentBook);
                             }
-                        ),//icon button close   
+                        ),//icon button close
                         //once you click on the book takes you to book view
                         onTap: () {
                           Navigator.of(context).push(
