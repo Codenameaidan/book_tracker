@@ -19,6 +19,7 @@ class LibraryRepository {
 
   }
 
+
   //Getters
   List<Book> get completedReading => _completedReading;
   Book getCompletedBook(int id){
@@ -44,8 +45,40 @@ class LibraryRepository {
     }
     throw Exception('ID not found.');
   }
+  
+
+
+  Book getCurrentBook(String title){
+    for(int i = 0; i< _completedReading.length; i++){
+      if(_completedReading[i].title == title){
+        return _completedReading[i];
+      }
+    }
+    throw Exception('ID not found.');
+  }
+
+
   void addCompletedBook(Book b){
+    b.library = Library.completed;
     _completedReading.add(b);
+  }
+  void addCurrentBook(Book b){
+    b.library = Library.reading;
+    _currentlyReading.add(b);
+  }
+  void addToBeReadBook(Book b){
+    b.library = Library.toBeRead;
+    _toBeRead.add(b);
+  }
+
+  //See if book already exists, by title.
+  bool bookExistsInCurrent(Book b){
+    for(int i = 0; i< _currentlyReading.length; i++){
+      if(_currentlyReading[i].title == b.title){
+        return true;
+      }
+    }
+    return false;
   }
 
 }

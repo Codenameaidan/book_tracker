@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:reading_tracker/services/library_repository.dart';
 import '../models/book.dart';
 
 /*
@@ -9,21 +10,10 @@ import '../models/book.dart';
 */
 
 
-// A list of books for now
-final List<Book> initialData = List.generate(
-    10,
-        (index) => Book(
-        id: "id",
-        title: "Title",
-        author: "Author",
-        totalPages: 300,
-        coverUrl: ""
-        ));
-
 class CurrReadViewModel with ChangeNotifier {
 
   // Currently reading books that will be shown on the currently reading screen
-  final List<Book> _currList = initialData; //change
+  final List<Book> _currList = LibraryRepository().currentlyReading;
 
   // method to Retrieve currently reading books
   List<Book> get currList => _currList;
