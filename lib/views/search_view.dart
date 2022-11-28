@@ -6,10 +6,11 @@ import '../constants.dart';
 import '../models/book.dart';
 import '../viewmodels/book_view_model.dart';
 import '../viewmodels/search_view_model.dart';
+import 'book_view.dart';
 
 class SearchView extends StatelessWidget {
-  final String data;
 
+  final String data;
   SearchViewModel searchViewModel;
 
   SearchView(this.data, this.searchViewModel);
@@ -77,7 +78,13 @@ class SearchView extends StatelessWidget {
                                     style: TextButton.styleFrom(
                                       textStyle: const TextStyle(fontSize: 20),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => new BookView(book)),
+                                        );
+                                    },
+                                  //ontap close},
                                     child: const Text('View'),
                                   ),
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/viewmodels/currently_reading_view_model.dart';
 import '../constants.dart';
+import '../viewmodels/book_view_model.dart';
 import 'book_view.dart';
 
 class CurReadView extends StatefulWidget {
@@ -88,7 +89,7 @@ final myController = TextEditingController();
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const BookView(),
+                              builder: (context) => new BookView(new BookViewModel(book: currentBook)),
                             ),
                           );
                         },//ontap close
