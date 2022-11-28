@@ -10,19 +10,10 @@ import '../models/book.dart';
 
 
 // A list of books for now
-final List<Book> initialData = List.generate(
-    10,
-        (index) => Book(
-        id: "id",
-        title: "Title2",
-        author: "Author2",
-        totalPages: 300,
-        coverUrl: ""
-        ));
 
 class CompReadViewModel with ChangeNotifier {
 
-  final List<Book> _compList = initialData; //change
+  final List<Book> _compList = []; //change
 
   List<Book> get compList => _compList;
 

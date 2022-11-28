@@ -10,8 +10,8 @@ class SearchViewModel extends ChangeNotifier {
   Future<List<BookViewModel>> fetchBooks(String keyword) async {
     final results =  await Webservice().fetchBooks(keyword);
     books = results.map((item) => BookViewModel(book: item)).toList();
-    return books;
     notifyListeners();
+    return books;
   }
 
 }
