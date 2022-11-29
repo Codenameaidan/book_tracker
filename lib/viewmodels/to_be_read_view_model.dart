@@ -9,20 +9,10 @@ import '../models/book.dart';
 */
 
 
-// A list of books for now
-final List<Book> initialData = List.generate(
-    10,
-        (index) => Book(
-        id: "id",
-        title: "Title2",
-        author: "Author2",
-        totalPages: 300,
-        coverUrl: ""
-        ));
 
 class ToBeReadViewModel with ChangeNotifier {
 
-  final List<Book> _tobeList = initialData; //change
+  final List<Book> _tobeList = []; //change
 
   List<Book> get tobeList => _tobeList;
 
