@@ -35,20 +35,35 @@ final myController = TextEditingController();
             )
         ),//appbar close
         drawer: Drawer(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListTile(title:const Text("Currently Reading")),
-                    ListTile(title:const Text("Want to Read")),
-                    ListTile(title:const Text("Have Read")),
-                    ListTile(title:const Text("Settings")),
-                  ]
-                )
-              )
-          )
-
+          backgroundColor: charcoal,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  Card(child: ListTile(
+                    title:Text("Currently Reading"),
+                    textColor: Colors.white,
+                    tileColor: darkCharcoal,
+                  )),
+                  Card(child: ListTile(
+                    title:Text("Want to Read"),
+                    textColor: Colors.white,
+                    tileColor: darkCharcoal,
+                  )),
+                  Card(child: ListTile(
+                    title:Text("Have Read"),
+                    textColor: Colors.white,
+                    tileColor: darkCharcoal,
+                  )),Card(child: ListTile(
+                    title:Text("Settings"),
+                    textColor: Colors.white,
+                    tileColor: darkCharcoal,
+                  )),
+                ],
+              ),
+            )
+          ),
         ),
         body: Padding(
         padding: const EdgeInsets.all(15),
@@ -66,7 +81,7 @@ final myController = TextEditingController();
                     final currentBook = currList[index];
                     return Card(
                       key: ValueKey(currentBook.title),
-                      color: Colors.amberAccent.shade100,
+                      color: lightRuby,
                       elevation: 4,
                       child: ListTile(
                         title: Text(currentBook.title),

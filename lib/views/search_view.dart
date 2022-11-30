@@ -70,7 +70,8 @@ class SearchView extends StatelessWidget {
                                       flex: 2,
                                       child:  Text(
                                         "By ${book.author}",
-                                        style: TextStyle(fontSize: 18, color: Colors.white)
+                                        style: TextStyle(fontSize: 18, color: Colors.white),
+                                        textAlign: TextAlign.center,
                                         )
                                     ),
                                     Expanded(
@@ -78,20 +79,18 @@ class SearchView extends StatelessWidget {
                                       child:  Padding (
                                         padding: EdgeInsets.only(bottom: 15),
                                         child: Card(
-                                          //margin: EdgeInsets.only(top: 30),
                                           color: darkCharcoal,
                                           child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            textStyle: const TextStyle(fontSize: 20),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) => new BookView(book)),
-                                              );
-                                          },
-                                          //ontap close},
-                                          child: const Text('View'),
+                                            style: TextButton.styleFrom(
+                                              textStyle: const TextStyle(fontSize: 20),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => new BookView(book)),
+                                                );
+                                            },
+                                            child: const Text('View'),
                                           ),
                                         )
                                       )
@@ -142,14 +141,17 @@ class SearchView extends StatelessWidget {
                         child: Text('Awaiting result...'),
                       ),
                       SizedBox(
-                        child:  TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
+                        child: Card(
+                          color: charcoal,
+                          child:  TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Close'),
                         ),
                       ),
                     ]
