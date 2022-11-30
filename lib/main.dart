@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Book App',
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-        scaffoldBackgroundColor: Color.fromARGB(255, 99, 99, 99)
+        primarySwatch: rubySwatch,
+        scaffoldBackgroundColor: darkCharcoal,
       ),
 
       onGenerateRoute: LocalRouter.Router.generateRoute,

@@ -22,9 +22,27 @@ class BookViewModel {
     return this.book.totalPages;
   }
 
-    String get coverUrl {
+  String get coverUrl {
     return this.book.coverUrl;
   }
 
-}
+  String get desc {
+    return this.book.desc;
+  }
 
+  String get publisher {
+    return this.book.publisher;
+  }
+
+  String get publishedDate {
+    return this.book.publishedDate;
+  }
+
+  double get rating {
+    return this.book.rating;
+  }
+
+  int get numRatings {
+    return this.book.numRatings;
+  }
+}
