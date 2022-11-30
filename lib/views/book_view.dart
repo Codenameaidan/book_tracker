@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:reading_tracker/services/library_repository.dart';
 import 'package:readmore/readmore.dart';
 import '../constants.dart';
+import '../models/book.dart';
 import '../viewmodels/book_view_model.dart';
 import 'currently_reading_view.dart';
 
@@ -26,6 +27,7 @@ class _BookViewState extends State<BookView>{
   @override
   Widget build(BuildContext context) {
     BookViewModel book = widget.book;
+    Library library = book.getLibrary();
 
     return Scaffold(
         appBar: AppBar(
@@ -142,33 +144,41 @@ class _BookViewState extends State<BookView>{
                   color: ruby,
                 ),
                 child: DropdownButton(
-                  items: const [
-                    DropdownMenuItem(value: 1, child: Center(child: Text(
+                  items: [
+                            
+                     if(library != Library.toBeRead)...[
+                    const DropdownMenuItem(value: 1, child: Center(
+                      child: Text(
                       "Want to Read",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.bold
-                    )))),
-                    DropdownMenuItem(value: 2, child: Center(child: Text(
-                      "Currently Reading",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                    )))),
-                    DropdownMenuItem(value: 3, child: Center(child: Text(
+                    ))))],
+
+                    if(library != Library.reading)...[
+                      const DropdownMenuItem(value: 2, child: Center(child: Text(
+                        "Currently Reading",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
+                      ))))
+                    ],
+
+                    if(library != Library.completed)...[
+                    const DropdownMenuItem(value: 3, child: Center(child: Text(
                       "Have Read",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.bold
-                    )))),
+                    ))))],
                   ],
                   underline: const SizedBox(),
-                  hint: const Center(child: Text(
-                    "Add to List",
-                    style: TextStyle(
+                  hint: Center(child: Text(
+                    library == Library.none ? "Add to List" : "Move from "+LibraryRepository().getLibraryName(library),
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold
@@ -180,8 +190,17 @@ class _BookViewState extends State<BookView>{
                   onChanged: (event) {
                     switch (event) {
                       case 1:
-                        if (!LibraryRepository().bookExistsInToBeRead(book.book)){
+                        if(library == Library.none){
                           LibraryRepository().addToBeReadBook(book.book);
+                        }else{
+                          LibraryRepository().moveBookToBeRead(book.book);
+                        }
+                        
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const CurReadView(),
+                          )
+                        );
                           //TO DO NAVIGATE TO CORRECT LIBRARY
 
                           // Navigator.of(context).push(
@@ -189,21 +208,34 @@ class _BookViewState extends State<BookView>{
                           //     builder: (context) => const CurReadView(),
                           //   )
                           // );
-                        }
+                        
                         break;
                       case 2:
-                        if (!LibraryRepository().bookExistsInCurrent(book.book)){
+                        if(library == Library.none){
                           LibraryRepository().addCurrentBook(book.book);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const CurReadView(),
-                            )
-                          );
+                        }else{
+                          LibraryRepository().moveBookToCurrent(book.book);
                         }
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const CurReadView(),
+                          )
+                        );
+                        
                         break;
                       case 3:
-                        if (!LibraryRepository().bookExistsInCompleted(book.book)){
+                        if(library == Library.none){
                           LibraryRepository().addCompletedBook(book.book);
+                        }else{
+                          LibraryRepository().moveBookToCompleted(book.book);
+                        }
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const CurReadView(),
+                          )
+                        );
                           //TO DO NAVIGATE TO CORRECT LIBRARY
 
                           // Navigator.of(context).push(
@@ -211,7 +243,7 @@ class _BookViewState extends State<BookView>{
                           //     builder: (context) => const CurReadView(),
                           //   )
                           // );
-                        }
+                        
                         break;
                     }
                   },

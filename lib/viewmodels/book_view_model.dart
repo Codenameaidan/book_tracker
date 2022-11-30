@@ -1,3 +1,5 @@
+import 'package:reading_tracker/services/library_repository.dart';
+
 import '../models/book.dart';
 
 class BookViewModel {
@@ -45,4 +47,19 @@ class BookViewModel {
   int get numRatings {
     return this.book.numRatings;
   }
+
+  Library getLibrary(){
+    if(LibraryRepository().bookExistsInCompleted(book)) {
+      return Library.completed;
+    }
+    if(LibraryRepository().bookExistsInCurrent(book)) {
+      return Library.reading;
+    }
+    if(LibraryRepository().bookExistsInToBeRead(book)) {
+      return Library.toBeRead;
+    }
+
+    return Library.none;
+  }
+
 }
