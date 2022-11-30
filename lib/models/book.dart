@@ -26,24 +26,34 @@ class Book {
   String notes = "";
   Library library = Library.none;
 
-  Book({required this.id, required this.title, required this.author, required
-    this.totalPages, required this.coverUrl, required this.desc, required
-    this.rating, required this.numRatings, required this.publisher,
-    required this.publishedDate});
+  Book({
+    required this.id,
+    required this.title,
+    required this.author,
+    required this.totalPages,
+    required this.coverUrl,
+    required this.desc,
+    required this.rating,
+    required this.numRatings,
+    required this.publisher,
+    required this.publishedDate
+  });
 
   factory Book.fromJson(Map<String, dynamic> json) {
+
     return Book(
-        id: json.containsKey('id') ? json['id'] : Null,
+        id: json.containsKey('id') ? json['id'] : "Not Found",
         title: json['volumeInfo'].containsKey('title') ? json['volumeInfo']['title'] : "Unknown",
         author: json['volumeInfo'].containsKey('authors') ? json['volumeInfo']['authors'][0] : "Unknown",
-        totalPages: json["volumeInfo"].containsKey('pageCount') ? json['volumeInfo']["pageCount"] : 0,
+        totalPages: json['volumeInfo'].containsKey('pageCount') ? json['volumeInfo']["pageCount"] : 0,
         coverUrl: json['volumeInfo'].containsKey("imageLinks") ? json['volumeInfo']['imageLinks']['thumbnail'] : notFoundImage,
-        desc: json.containsKey('description') ? json['description'] : "No Description",
-        rating: json.containsKey('averageRating') ? json["averageRating"] : 0,
-        numRatings: json.containsKey('ratingsCount') ? json['ratingsCount'] : 0,
-        publisher: json.containsKey('publisher') ? json['publisher'] : "Not Found",
-        publishedDate: json.containsKey('publishedDate') ? json['publishedDate'] : "Not Found"
+        desc: json['volumeInfo'].containsKey('description') ? json['volumeInfo']['description'] : "No Description",
+        rating: json['volumeInfo'].containsKey('averageRating') ? json['volumeInfo']['averageRating'].toDouble() : 0.0,
+        numRatings: json['volumeInfo'].containsKey('ratingsCount') ? json['volumeInfo']['ratingsCount'] : 0,
+        publisher: json['volumeInfo'].containsKey('publisher') ? json['volumeInfo']['publisher'] : "Not Found",
+        publishedDate: json['volumeInfo'].containsKey('publishedDate') ? json['volumeInfo']['publishedDate'] : "Not Found"
     );
   }
+
 
 }

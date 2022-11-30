@@ -116,10 +116,22 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "readmore",
+      "rootUri": "file:///C:/Development/flutter/.pub-cache/hosted/pub.dartlang.org/readmore-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///C:/Development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "smooth_star_rating",
+      "rootUri": "file:///C:/Development/flutter/.pub-cache/hosted/pub.dartlang.org/smooth_star_rating-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
     },
     {
       "name": "source_span",
@@ -176,7 +188,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-28T18:55:05.683277Z",
+  "generated": "2022-11-30T02:05:54.028238Z",
   "generator": "pub",
   "generatorVersion": "2.18.4"
 }

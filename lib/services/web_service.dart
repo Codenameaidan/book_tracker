@@ -15,7 +15,9 @@ class Webservice {
 
       final body = jsonDecode(response.body);
       Iterable json = body["items"];
-      json = json.take(10); //currently limited to only first 10 results
+
+      json = json.where((book) => book.containsKey("volumeInfo")).take(10); //currently limited to only first 10 results
+
 
       return json.map((book) => Book.fromJson(book)).toList();
 

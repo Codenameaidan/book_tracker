@@ -42,51 +42,63 @@ class SearchView extends StatelessWidget {
                     SizedBox(
                       height: 300.0,
                       child: Card(
+                        color: charcoal,
                         child:Row(
                           children: <Widget>[
                             Expanded(
                               flex: 5, // 50%
-                              child: Image.network(book.coverUrl),
+                              child:  ClipRRect (
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(book.coverUrl, fit: BoxFit.contain)
+                              )
                             ),
                             Expanded(
                               flex: 5, // 50%
                               child: Padding(
-                                padding: EdgeInsets.only(top:20.0, right: 10.0),
+                                padding: const EdgeInsets.only(top:20.0, right: 10.0),
                                 child: Column(
-
                                   children: [
                                     Expanded(
-                                      flex: 3, // 50%
+                                      flex: 5,
                                       child: Text(
-                                          style: TextStyle(fontSize: 24),
+                                          style: TextStyle(fontSize: 22, color: Colors.white),
+                                          textAlign: TextAlign.center,
                                           book.title
                                       )
                                     ),
                                     Expanded(
-                                      flex: 2, // 50%
-                                      child:  Text("By " + book.author)
+                                      flex: 2,
+                                      child:  Text(
+                                        "By ${book.author}",
+                                        style: TextStyle(fontSize: 18, color: Colors.white),
+                                        textAlign: TextAlign.center,
+                                        )
                                     ),
                                     Expanded(
-                                      flex: 2, // 50%
-                                      child:  TextButton(
-                                        style: TextButton.styleFrom(
-                                          textStyle: const TextStyle(fontSize: 20),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => new BookView(book)),
-                                            );
-                                        },
-                                      //ontap close},
-                                        child: const Text('View'),
-                                      ),
+                                      flex: 2,
+                                      child:  Padding (
+                                        padding: EdgeInsets.only(bottom: 15),
+                                        child: Card(
+                                          color: darkCharcoal,
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                              textStyle: const TextStyle(fontSize: 20),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => new BookView(book)),
+                                                );
+                                            },
+                                            child: const Text('View'),
+                                          ),
+                                        )
+                                      )
 
                                     ),
                                 ]
                               ),
                               )
-                              //child: Container(color: Colors.green),
                             ),
 
                           ],
@@ -99,7 +111,6 @@ class SearchView extends StatelessWidget {
                       title: TextFormField(
                       controller: myController,
                       decoration: const InputDecoration(
-
                         hintText: 'Search',
                       ),
                       onEditingComplete:() {
@@ -130,14 +141,17 @@ class SearchView extends StatelessWidget {
                         child: Text('Awaiting result...'),
                       ),
                       SizedBox(
-                        child:  TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
+                        child: Card(
+                          color: charcoal,
+                          child:  TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Close'),
                         ),
                       ),
                     ]

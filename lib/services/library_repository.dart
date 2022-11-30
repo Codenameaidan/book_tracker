@@ -1,6 +1,6 @@
 import '../models/book.dart';
 
-//LibraryRepository is a Singleton 
+//LibraryRepository is a Singleton
 class LibraryRepository {
 
   static final LibraryRepository _instance = LibraryRepository._internal();
@@ -45,7 +45,7 @@ class LibraryRepository {
     }
     throw Exception('ID not found.');
   }
-  
+
 
 
   Book getCurrentBook(String title){
@@ -71,10 +71,28 @@ class LibraryRepository {
     _toBeRead.add(b);
   }
 
-  //See if book already exists, by title.
+  //See if book already exists, by id.
   bool bookExistsInCurrent(Book b){
     for(int i = 0; i< _currentlyReading.length; i++){
-      if(_currentlyReading[i].title == b.title){
+      if(_currentlyReading[i].id == b.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool bookExistsInCompleted(Book b){
+    for(int i = 0; i< _completedReading.length; i++){
+      if(_completedReading[i].id == b.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool bookExistsInToBeRead(Book b){
+    for(int i = 0; i< _toBeRead.length; i++){
+      if(_toBeRead[i].id == b.id){
         return true;
       }
     }
