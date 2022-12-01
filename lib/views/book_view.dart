@@ -20,14 +20,17 @@ class BookView extends StatefulWidget {
   _BookViewState createState() => _BookViewState();
 }
 
-final myController = TextEditingController();
-final pageController = PageController(initialPage: 0);
-final noteTextContolller = TextEditingController();
-final notePageNumberContolller = TextEditingController();
 
 class _BookViewState extends State<BookView>{
   @override
   Widget build(BuildContext context) {
+
+    final myController = TextEditingController();
+    final pageController = new PageController(initialPage: 0);
+    final noteTextContolller = TextEditingController();
+    final notePageNumberContolller = TextEditingController();
+
+
     BookViewModel book = widget.book;
     Library library = book.getLibrary();
 
@@ -154,7 +157,7 @@ class _BookViewState extends State<BookView>{
                   ),
                 child: DropdownButton(
                   items: [
-                            
+
                      if(library != Library.toBeRead)...[
                     const DropdownMenuItem(value: 1, child: Center(
                       child: Text(
@@ -204,20 +207,13 @@ class _BookViewState extends State<BookView>{
                         }else{
                           LibraryRepository().moveBookToBeRead(book.book);
                         }
-                        
+
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const CurReadView(),
                           )
                         );
-                          //TO DO NAVIGATE TO CORRECT LIBRARY
 
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const CurReadView(),
-                          //   )
-                          // );
-                        
                         break;
                       case 2:
                         if(library == Library.none){
@@ -231,7 +227,7 @@ class _BookViewState extends State<BookView>{
                             builder: (context) => const CurReadView(),
                           )
                         );
-                        
+
                         break;
                       case 3:
                         if(library == Library.none){
@@ -245,18 +241,12 @@ class _BookViewState extends State<BookView>{
                             builder: (context) => const CurReadView(),
                           )
                         );
-                          //TO DO NAVIGATE TO CORRECT LIBRARY
 
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const CurReadView(),
-                          //   )
-                          // );
-                        
+
                         break;
                     }
                   },
-                    )
+                )
                   ),
 
                 )
