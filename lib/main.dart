@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: rubySwatch,
         scaffoldBackgroundColor: darkCharcoal,
       ),
-
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: LocalRouter.Router.generateRoute,
       initialRoute: homeRoute,
 
