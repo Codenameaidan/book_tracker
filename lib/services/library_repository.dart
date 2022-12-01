@@ -71,6 +71,49 @@ class LibraryRepository {
     _toBeRead.add(b);
   }
 
+  void removeCompletedBook(Book b){
+    for(int i = 0; i< _completedReading.length; i++){
+      if(_completedReading[i].id == b.id){
+        _completedReading.removeAt(i);
+      }
+    }
+  }
+  void removeCurrentBook(Book b){
+    for(int i = 0; i< _currentlyReading.length; i++){
+      if(_currentlyReading[i].id == b.id){
+        _currentlyReading.removeAt(i);
+      }
+    }
+  }
+  void removeToBeReadBook(Book b){
+    for(int i = 0; i< _toBeRead.length; i++){
+      if(_toBeRead[i].id == b.id){
+        _toBeRead.removeAt(i);
+      }
+    }
+  }
+
+  void moveBookToCompleted(Book b){
+    removeCurrentBook(b);
+    removeToBeReadBook(b);
+
+    addCompletedBook(b);
+  }
+
+  void moveBookToCurrent(Book b){
+    removeCompletedBook(b);
+    removeToBeReadBook(b);
+
+    addCurrentBook(b);
+  }
+
+  void moveBookToBeRead(Book b){
+    removeCurrentBook(b);
+    removeCompletedBook(b);
+    
+    addToBeReadBook(b);
+  }
+
   //See if book already exists, by id.
   bool bookExistsInCurrent(Book b){
     for(int i = 0; i< _currentlyReading.length; i++){
@@ -97,6 +140,17 @@ class LibraryRepository {
       }
     }
     return false;
+  }
+
+  String getLibraryName(Library l){
+    if(l == Library.completed){
+      return "Have Read";
+    }else if(l == Library.toBeRead){
+      return "Want to Read";
+    }else if(l == Library.reading){
+      return "Currently Reading";
+    }
+    return "";
   }
 
 }
