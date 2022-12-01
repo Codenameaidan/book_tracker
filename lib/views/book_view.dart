@@ -26,13 +26,136 @@ class _BookViewState extends State<BookView>{
   Widget build(BuildContext context) {
 
     final myController = TextEditingController();
-    final pageController = new PageController(initialPage: 0);
+    final pageController = PageController(initialPage: 0);
     final noteTextContolller = TextEditingController();
     final notePageNumberContolller = TextEditingController();
 
 
     BookViewModel book = widget.book;
     Library library = book.getLibrary();
+
+    Widget addNoteButton =
+    Padding(padding: const EdgeInsets.all(10), child:
+      ElevatedButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Center(child: Text("Add Note")),
+                content: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Page:"),
+                      TextFormField(
+                        controller: notePageNumberContolller,
+                        keyboardType: TextInputType.number,
+                        onFieldSubmitted:(text) {
+                                if (noteTextContolller.text.isNotEmpty && text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(text), noteTextContolller.text);
+                                  noteTextContolller.clear();
+                                  notePageNumberContolller.clear();
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BookView(book)),
+                                  );
+                                  pageController.jumpToPage(1);
+                                }
+                              },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter page number';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: noteTextContolller,
+                        onFieldSubmitted: (text) {
+                                if (text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(notePageNumberContolller.text), text);
+                                  noteTextContolller.clear();
+                                  notePageNumberContolller.clear();
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BookView(book)),
+                                  );
+                                  pageController.jumpToPage(1);
+                                }
+                              },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                      Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed:() {
+                                if (noteTextContolller.text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(notePageNumberContolller.text), noteTextContolller.text);
+                                  noteTextContolller.clear();
+                                  notePageNumberContolller.clear();
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BookView(book)),
+                                  );
+                                  pageController.nextPage(duration: const Duration(milliseconds: 50), curve: Curves.linear);
+                                }
+                              },
+                              child: const Text('Submit'),
+                            )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Cancel'),
+                            )
+                          ),
+                        ]
+                      )
+                    ],
+                  ),
+                )
+              )
+            );
+          },
+          child: const Padding (
+            padding: EdgeInsets.all(5),
+            child: Text('Add Note'),
+          )
+      )
+    );
+    var noteDisplayList = [addNoteButton];
+
+    book.notes.forEach((page, noteList) {
+      noteDisplayList.add(
+        Text("$page")
+      );
+      noteList.forEach((note) {
+        if(note.isNotEmpty) {
+          noteDisplayList.add(Text("$note"));
+        }
+      });
+    });
+
 
     return Scaffold(
         appBar: AppBar(
@@ -253,100 +376,9 @@ class _BookViewState extends State<BookView>{
               ]
             ),
             ListView(
-              children: [
-                Padding (
-                  padding: EdgeInsets.all(10),
-                  child: ElevatedButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Center(child: Text("Add Note")),
-                        content: Form(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Page:"),
-                              TextFormField(
-                                controller: notePageNumberContolller,
-                                keyboardType: TextInputType.number,
-                                onFieldSubmitted:(text) {
-                                        if (noteTextContolller.text.isNotEmpty && text.isNotEmpty) {
-                                          book.addNoteToPage(int.parse(text), noteTextContolller.text);
-                                          noteTextContolller.clear();
-                                          notePageNumberContolller.clear();
-                                        }
-                                      },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter page number';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              TextFormField(
-                                controller: noteTextContolller,
-                                onFieldSubmitted: (text) {
-                                        if (text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
-                                          book.addNoteToPage(int.parse(notePageNumberContolller.text), text);
-                                          noteTextContolller.clear();
-                                          notePageNumberContolller.clear();
-                                        }
-                                      },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              Row (
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: ElevatedButton(
-                                      onPressed:() {
-                                        if (noteTextContolller.text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
-                                          book.addNoteToPage(int.parse(notePageNumberContolller.text), noteTextContolller.text);
-                                          noteTextContolller.clear();
-                                          notePageNumberContolller.clear();
-                                        }
-                                      },
-                                      child: const Text('Submit'),
-                                    )
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Cancel'),
-                                    )
-                                  ),
-                                ]
-                              )
-                            ],
-                          ),
-                        )
-                      )
-                    );
-                  },
-                  child: const Padding (
-                    padding: EdgeInsets.all(5),
-                    child: Text('Add Note'),
-                  )
-                  ),
-                ),
-              ],
+              children: noteDisplayList
             )
           ],
-
-
 
         )
     );
