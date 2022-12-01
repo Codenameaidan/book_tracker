@@ -48,6 +48,7 @@ class BookViewModel {
     return this.book.numRatings;
   }
 
+
   Library getLibrary(){
     if(LibraryRepository().bookExistsInCompleted(book)) {
       return Library.completed;
@@ -62,4 +63,27 @@ class BookViewModel {
     return Library.none;
   }
 
+
+  Map<int, List<String>> get notes {
+    return this.book.notes;
+  }
+
+  int get currentPage {
+    return this.book.currentPage;
+  }
+
+  void set currentPage(int newPage) {
+    currentPage = newPage;
+  }
+
+  void addNoteToPage(int page, String note){
+    if(this.book.notes.containsKey(page)){
+      this.book.notes[page]?.add(note);
+    }
+    else{
+      this.book.notes[page] = [note];
+    }
+  }
+  
 }
+

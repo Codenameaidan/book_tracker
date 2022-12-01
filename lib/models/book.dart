@@ -22,8 +22,8 @@ class Book {
   final String publisher;
   final String publishedDate;
 
-  int currentPage = 0;
-  String notes = "";
+  int currentPage;
+  Map<int, List<String>> notes;
   Library library = Library.none;
 
   Book({
@@ -36,7 +36,9 @@ class Book {
     required this.rating,
     required this.numRatings,
     required this.publisher,
-    required this.publishedDate
+    required this.publishedDate,
+    required this.notes,
+    required this.currentPage,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
@@ -51,7 +53,9 @@ class Book {
         rating: json['volumeInfo'].containsKey('averageRating') ? json['volumeInfo']['averageRating'].toDouble() : 0.0,
         numRatings: json['volumeInfo'].containsKey('ratingsCount') ? json['volumeInfo']['ratingsCount'] : 0,
         publisher: json['volumeInfo'].containsKey('publisher') ? json['volumeInfo']['publisher'] : "Not Found",
-        publishedDate: json['volumeInfo'].containsKey('publishedDate') ? json['volumeInfo']['publishedDate'] : "Not Found"
+        publishedDate: json['volumeInfo'].containsKey('publishedDate') ? json['volumeInfo']['publishedDate'] : "Not Found",
+        notes: {},
+        currentPage: 0
     );
   }
 
