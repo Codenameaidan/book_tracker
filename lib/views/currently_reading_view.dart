@@ -76,6 +76,7 @@ final myController = TextEditingController();
             const SizedBox(
               height: 15,
             ),
+             const Text("Currently Reading", style: TextStyle(fontSize: 22, color: Colors.white)),
             Expanded(
               child: ListView.builder(
                   itemCount: currList.length,
