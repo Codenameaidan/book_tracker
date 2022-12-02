@@ -26,6 +26,8 @@ class Book {
   Map<int, List<String>> notes;
   Library library = Library.none;
 
+//Get JSON representation of this object
+//TODO add notes...
   Map toJson() => {
         'id': id,
         'title': title,
@@ -42,6 +44,7 @@ class Book {
         'library': library.toString()
       };
 
+//Create a book from a file JSON representation
   factory Book.fromJsonFile(Map<String, dynamic> json) {
     Book book = Book(
       
@@ -69,6 +72,7 @@ class Book {
 
     return book;
   }
+
 
   Book({
     required this.id,
