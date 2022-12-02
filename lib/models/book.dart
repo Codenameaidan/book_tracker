@@ -14,17 +14,61 @@ class Book {
   final String id;
   final String title;
   final String author;
-  final String desc;
   final int totalPages;
+  final String coverUrl;
+  final String desc;
   final double rating;
   final int numRatings;
-  final String coverUrl;
   final String publisher;
   final String publishedDate;
 
   int currentPage;
   Map<int, List<String>> notes;
   Library library = Library.none;
+
+  Map toJson() => {
+        'id': id,
+        'title': title,
+        'author': author,
+        'desc': desc,
+        'totalPages': totalPages,
+        'rating':rating,
+        'numRatings':numRatings,
+        'coverUrl': coverUrl,
+        'publisher':publisher,
+        'publishedDate':publishedDate,
+        'notes':notes,
+        'currentPage':currentPage,
+        'library': library.toString()
+      };
+
+  factory Book.fromJsonFile(Map<String, dynamic> json) {
+    Book book = Book(
+      
+        id: json['id'] as String, 
+        title:  json['title'] as String, 
+        author: json['author'] as String, 
+        totalPages: json['totalPages'] as int,
+        coverUrl: json['coverUrl'] as String,
+        desc:  json['desc'] as String,
+        rating: json['rating'] as double,
+        numRatings:  json['numRatings'] as int,
+        publisher: json['publisher'] as String,
+        publishedDate:  json['publishedDate'] as String,
+        notes: {},//null;//json['notes'] as Map<int, List<String>>,
+        currentPage:json['currentPage'] as int
+      );
+
+    if(json['library'] == "Library.reading"){
+        book.library = Library.reading;
+    }else if(json['library'] == "Library.completed"){
+        book.library = Library.completed;
+    }else if(json['library'] == "Library.toBeRead"){
+        book.library = Library.toBeRead;
+    }
+
+    return book;
+  }
 
   Book({
     required this.id,
