@@ -1,3 +1,11 @@
+
+
+
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
+
 import '../models/book.dart';
 
 //LibraryRepository is a Singleton
@@ -16,102 +24,69 @@ class LibraryRepository {
   //initialize variables in here
   LibraryRepository._internal() {
     //Load from file?
-
   }
 
 
-  //Getters
+//Getters
   List<Book> get completedReading => _completedReading;
-  Book getCompletedBook(int id){
-    for(int i = 0; i< _completedReading.length; i++){
-      if(_completedReading[i].id == id){
-        return _completedReading[i];
-      }
-    }
-    throw Exception('ID not found.');
-  }
-
   List<Book> get currentlyReading => _currentlyReading;
   List<Book> get toBeRead => _toBeRead;
 
-
-  //Setters
-  void setCompletedBook(Book b, int id){
-    for(int i = 0; i< _completedReading.length; i++){
-      if(_completedReading[i].id == id){
-        _completedReading[i] = b;
-        return;
-      }
-    }
-    throw Exception('ID not found.');
-  }
-
-
-
-  Book getCurrentBook(String title){
-    for(int i = 0; i< _completedReading.length; i++){
-      if(_completedReading[i].title == title){
-        return _completedReading[i];
-      }
-    }
-    throw Exception('ID not found.');
-  }
-
-
+//Public functions
   void addCompletedBook(Book b){
     b.library = Library.completed;
     _completedReading.add(b);
+
+    save();
   }
+
   void addCurrentBook(Book b){
     b.library = Library.reading;
     _currentlyReading.add(b);
+
+    save();
   }
   void addToBeReadBook(Book b){
     b.library = Library.toBeRead;
     _toBeRead.add(b);
-  }
 
-  void removeCompletedBook(Book b){
-    for(int i = 0; i< _completedReading.length; i++){
-      if(_completedReading[i].id == b.id){
-        _completedReading.removeAt(i);
-      }
-    }
-  }
-  void removeCurrentBook(Book b){
-    for(int i = 0; i< _currentlyReading.length; i++){
-      if(_currentlyReading[i].id == b.id){
-        _currentlyReading.removeAt(i);
-      }
-    }
-  }
-  void removeToBeReadBook(Book b){
-    for(int i = 0; i< _toBeRead.length; i++){
-      if(_toBeRead[i].id == b.id){
-        _toBeRead.removeAt(i);
-      }
-    }
+    save();
   }
 
   void moveBookToCompleted(Book b){
-    removeCurrentBook(b);
-    removeToBeReadBook(b);
+    _removeCurrentBook(b);
+    _removeToBeReadBook(b);
 
     addCompletedBook(b);
   }
 
   void moveBookToCurrent(Book b){
-    removeCompletedBook(b);
-    removeToBeReadBook(b);
+    _removeCompletedBook(b);
+    _removeToBeReadBook(b);
 
     addCurrentBook(b);
   }
 
   void moveBookToBeRead(Book b){
-    removeCurrentBook(b);
-    removeCompletedBook(b);
+    _removeCurrentBook(b);
+    _removeCompletedBook(b);
     
     addToBeReadBook(b);
+  }
+
+  void removeCompletedBook(Book b){
+    _removeCompletedBook(b);
+    save();
+  }
+
+  void removeCurrentBook(Book b){
+    _removeCurrentBook(b);
+    save();
+  }
+
+  void removeToBeReadBook(Book b){
+    _removeToBeReadBook(b);
+    save();
   }
 
   //See if book already exists, by id.
@@ -142,6 +117,8 @@ class LibraryRepository {
     return false;
   }
 
+  
+
   String getLibraryName(Library l){
     if(l == Library.completed){
       return "Have Read";
@@ -153,4 +130,81 @@ class LibraryRepository {
     return "";
   }
 
+
+  void save() async{
+    var everything = List<Book>.empty(growable: true);
+    everything.addAll(_completedReading);
+    everything.addAll(_currentlyReading);
+    everything.addAll(_toBeRead);
+    
+    String jsonBooks = jsonEncode(everything);
+    //print(jsonBooks);
+    final file = await _localFile;
+    file.writeAsString(jsonBooks);
+  }
+
+  Future<bool> load() async{
+    final file = await _localFile;
+
+    bool exists = await file.exists();
+
+    if(!exists)
+      return false;
+
+    var x = await file.readAsString();
+
+    var json = jsonDecode(x);
+    //Iterable m = decoded;
+
+    List<dynamic> everything = json.map((book) => Book.fromJsonFile(book)).toList();
+    for(int x = 0;x<everything.length;x++){
+      Book b = everything.elementAt(x);
+      if(b.library == Library.completed){
+        addCompletedBook(b);
+      }else if(b.library == Library.reading){
+        addCurrentBook(b);
+      }else if(b.library == Library.toBeRead){
+        addToBeReadBook(b);
+      }
+    }
+
+    return true;
+  }
+
+
+//Internal functions
+  void _removeCompletedBook(Book b){
+    for(int i = 0; i< _completedReading.length; i++){
+      if(_completedReading[i].id == b.id){
+        _completedReading.removeAt(i);
+      }
+    }
+    
+  }
+  void _removeCurrentBook(Book b){
+    for(int i = 0; i< _currentlyReading.length; i++){
+      if(_currentlyReading[i].id == b.id){
+        _currentlyReading.removeAt(i);
+      }
+    }
+  }
+  void _removeToBeReadBook(Book b){
+    for(int i = 0; i< _toBeRead.length; i++){
+      if(_toBeRead[i].id == b.id){
+        _toBeRead.removeAt(i);
+      }
+    }
+  }
+
+
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/data.json');
+  }
 }

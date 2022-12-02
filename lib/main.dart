@@ -12,7 +12,11 @@ import 'viewmodels/currently_reading_view_model.dart';
 
 
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await LibraryRepository().load();
+
   runApp(ChangeNotifierProvider<CurrReadViewModel>(
     child: const MyApp(),
     create: (_) => CurrReadViewModel(),
