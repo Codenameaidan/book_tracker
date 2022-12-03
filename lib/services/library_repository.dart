@@ -70,7 +70,7 @@ class LibraryRepository {
   void moveBookToBeRead(Book b){
     _removeCurrentBook(b);
     _removeCompletedBook(b);
-    
+
     addToBeReadBook(b);
   }
 
@@ -117,7 +117,7 @@ class LibraryRepository {
     return false;
   }
 
-  
+
 
   String getLibraryName(Library l){
     if(l == Library.completed){
@@ -136,7 +136,7 @@ class LibraryRepository {
     everything.addAll(_completedReading);
     everything.addAll(_currentlyReading);
     everything.addAll(_toBeRead);
-    
+
     String jsonBooks = jsonEncode(everything);
     //print(jsonBooks);
     final file = await _localFile;
@@ -179,7 +179,7 @@ class LibraryRepository {
         _completedReading.removeAt(i);
       }
     }
-    
+
   }
   void _removeCurrentBook(Book b){
     for(int i = 0; i< _currentlyReading.length; i++){

@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../viewmodels/book_view_model.dart';
-import '../viewmodels/to_be_read_view_model.dart';
+import '../viewmodels/have_read_view_model.dart';
 import 'book_view.dart';
 
-class ToBeReadView extends StatefulWidget {
-  const ToBeReadView({Key? key}) : super(key: key);
+class HaveReadView extends StatefulWidget {
+  const HaveReadView({Key? key}) : super(key: key);
 
   @override
-  _ToBeReadViewState createState() => _ToBeReadViewState();
+  _HaveReadViewState createState() => _HaveReadViewState();
 }
 
-class _ToBeReadViewState extends State<ToBeReadView>{
+class _HaveReadViewState extends State<HaveReadView>{
 
 final myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var currList = context
-        .watch<ToBeReadViewModel>()
-        .tobeList;
+        .watch<HaveReadViewModel>()
+        .haveReadList;
 
     return Scaffold(
         appBar: AppBar(
@@ -42,21 +42,21 @@ final myController = TextEditingController();
               child: Column(
                 children: [
                   Card(child: ListTile(
-                    title:const Text("Currently Reading"),
+                    title: const Text("Currently Reading"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
                     onTap:() => Navigator.pushNamed(context, homeRoute)
                   )),
-                  const Card(child: ListTile(
-                    title:Text("Want to Read"),
+                  Card(child: ListTile(
+                    title: const Text("Want to Read"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
+                    onTap:() => Navigator.pushNamed(context, toBeReadRoute)
                   )),
-                  Card(child: ListTile(
+                  const Card(child: ListTile(
                     title:Text("Have Read"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
-                    onTap:() => Navigator.pushNamed(context, haveReadRoute)
                   )),
                   const Card(child: ListTile(
                     title:Text("Settings"),
@@ -77,7 +77,7 @@ final myController = TextEditingController();
             const SizedBox(
               height: 15,
             ),
-            const Text("Want to Read", style: TextStyle(fontSize: 22, color: Colors.white)),
+            const Text("Have Read", style: TextStyle(fontSize: 22, color: Colors.white)),
             Expanded(
               child: ListView.builder(
                   itemCount: currList.length,
@@ -100,7 +100,7 @@ final myController = TextEditingController();
                           ),
                           onPressed: () {
                             context
-                                .read<ToBeReadViewModel>()
+                                .read<HaveReadViewModel>()
                                 .removeFromList(currentBook);
                             }
                         ),//icon button close

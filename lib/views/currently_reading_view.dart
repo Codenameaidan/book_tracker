@@ -40,8 +40,8 @@ final myController = TextEditingController();
             padding: const EdgeInsets.only(top: 50),
             child: SingleChildScrollView(
               child: Column(
-                children: const [
-                  Card(child: ListTile(
+                children: [
+                  const Card(child: ListTile(
                     title:Text("Currently Reading"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
@@ -50,12 +50,14 @@ final myController = TextEditingController();
                     title:Text("Want to Read"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
+                    onTap:() => Navigator.pushNamed(context, toBeReadRoute)
                   )),
                   Card(child: ListTile(
                     title:Text("Have Read"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
-                  )),Card(child: ListTile(
+                    onTap:() => Navigator.pushNamed(context, haveReadRoute)
+                  )),const Card(child: ListTile(
                     title:Text("Settings"),
                     textColor: Colors.white,
                     tileColor: darkCharcoal,
@@ -74,6 +76,7 @@ final myController = TextEditingController();
             const SizedBox(
               height: 15,
             ),
+             const Text("Currently Reading", style: TextStyle(fontSize: 22, color: Colors.white)),
             Expanded(
               child: ListView.builder(
                   itemCount: currList.length,

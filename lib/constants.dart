@@ -2,8 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 //Routing
-const String homeRoute = '/';
+const String homeRoute = '/currentlyReading';
 const String searchRoute = '/search';
+const String toBeReadRoute = '/toBeRead';
+const String haveReadRoute = '/haveRead';
 
 //Colors
 const charcoal =  Color.fromARGB(255, 71, 71, 71);
