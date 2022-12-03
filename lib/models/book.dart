@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 const notFoundImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/800px-Image_not_available.png?20210219185637";
@@ -10,7 +11,6 @@ enum Library{
 }
 
 class Book {
-
   final String id;
   final String title;
   final String author;
@@ -26,8 +26,7 @@ class Book {
   Map<int, List<String>> notes;
   Library library = Library.none;
 
-//Get JSON representation of this object
-//TODO add notes...
+//Get JSON representation of this object (for file I/O)
   Map toJson() => {
         'id': id,
         'title': title,
@@ -39,10 +38,13 @@ class Book {
         'coverUrl': coverUrl,
         'publisher':publisher,
         'publishedDate':publishedDate,
-        'notes':notes,
+        'note_keys': notes.keys.toList(),
+        'note_values': notes.values.toList(),
         'currentPage':currentPage,
         'library': library.toString()
       };
+
+
 
 //Create a book from a file JSON representation
   factory Book.fromJsonFile(Map<String, dynamic> json) {
@@ -62,12 +64,23 @@ class Book {
         currentPage:json['currentPage'] as int
       );
 
+    //Special handling for enums
     if(json['library'] == "Library.reading"){
         book.library = Library.reading;
     }else if(json['library'] == "Library.completed"){
         book.library = Library.completed;
     }else if(json['library'] == "Library.toBeRead"){
         book.library = Library.toBeRead;
+    }
+
+    //Notes
+    var pages = json['note_keys'].cast<int>() as List<int>;
+
+    var values =
+      json['note_values'].map<List<String>>((l) => List<String>.from(l)).toList();
+
+    for(int x = 0; x < pages.length; x++){
+      book.notes[pages[x]] = values.elementAt(x);
     }
 
     return book;

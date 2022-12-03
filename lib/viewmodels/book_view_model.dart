@@ -83,6 +83,8 @@ class BookViewModel {
     else{
       this.book.notes[page] = [note];
     }
+
+    LibraryRepository().save();
   }
   
 }
