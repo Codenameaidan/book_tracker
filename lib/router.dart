@@ -5,6 +5,7 @@ import 'package:reading_tracker/views/to_be_read_view.dart';
 import 'constants.dart';
 import 'views/currently_reading_view.dart';
 import 'views/search_view.dart';
+import 'views/settings_view.dart';
 
 class Router {
 
@@ -16,6 +17,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => const ToBeReadView());
       case haveReadRoute:
         return MaterialPageRoute(builder: (_) => const HaveReadView());
+      case settingsRoute:
+        return MaterialPageRoute(builder: (_) => const SettingsView());
       case searchRoute:
         var data = settings.arguments as String;
         return MaterialPageRoute(builder: (_) => SearchView(data, SearchViewModel()));

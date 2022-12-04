@@ -6,6 +6,7 @@ import 'package:reading_tracker/services/library_repository.dart';
 import 'package:readmore/readmore.dart';
 import '../constants.dart';
 import '../models/book.dart';
+import '../services/settings_controller.dart';
 import '../viewmodels/book_view_model.dart';
 import 'currently_reading_view.dart';
 
@@ -319,8 +320,8 @@ class _BookViewState extends State<BookView>{
                       fontWeight: FontWeight.bold
                   ))),
                   isExpanded: true,
-                  dropdownColor: charcoal,
-                  focusColor: darkCharcoal,
+                  dropdownColor: SettingsController.background1,
+                  focusColor: SettingsController.background2,
                   iconEnabledColor: Colors.white,
                   onChanged: (event) {
                     switch (event) {

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reading_tracker/views/currently_reading_view.dart';
 import '../constants.dart';
 import '../models/book.dart';
+import '../services/settings_controller.dart';
 import '../viewmodels/book_view_model.dart';
 import '../viewmodels/search_view_model.dart';
 import 'book_view.dart';
@@ -25,7 +26,7 @@ class SearchView extends StatelessWidget {
     return Scaffold(
 
       body: Center(
-
+        
         child: FutureBuilder(
           future: searchViewModel.fetchBooks(data),
 
@@ -42,7 +43,7 @@ class SearchView extends StatelessWidget {
                     SizedBox(
                       height: 300.0,
                       child: Card(
-                        color: charcoal,
+                        color: SettingsController.background1,
                         child:Row(
                           children: <Widget>[
                             Expanded(
@@ -79,7 +80,7 @@ class SearchView extends StatelessWidget {
                                       child:  Padding (
                                         padding: EdgeInsets.only(bottom: 15),
                                         child: Card(
-                                          color: darkCharcoal,
+                                          color: SettingsController.background2,
                                           child: TextButton(
                                             style: TextButton.styleFrom(
                                               textStyle: const TextStyle(fontSize: 20),
@@ -142,7 +143,7 @@ class SearchView extends StatelessWidget {
                       ),
                       SizedBox(
                         child: Card(
-                          color: charcoal,
+                          color: SettingsController.background1,
                           child:  TextButton(
                             style: TextButton.styleFrom(
                               textStyle: const TextStyle(fontSize: 20),
