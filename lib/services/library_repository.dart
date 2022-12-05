@@ -156,6 +156,9 @@ class LibraryRepository {
 
     var json = jsonDecode(x);
 
+    if(json == null)
+      return false;
+
     List<dynamic> everything = json.map((book) => Book.fromJsonFile(book)).toList();
     for(int x = 0;x<everything.length;x++){
       Book b = everything.elementAt(x);

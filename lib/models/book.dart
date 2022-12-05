@@ -73,15 +73,18 @@ class Book {
         book.library = Library.toBeRead;
     }
 
-    //Notes
-    var pages = json['note_keys'].cast<int>() as List<int>;
+   //Notes
+    if(json['note_keys'] != null && json['note_values'] != null){
+      var pages = json['note_keys'].cast<int>() as List<int>;
 
-    var values =
-      json['note_values'].map<List<String>>((l) => List<String>.from(l)).toList();
+      var values =
+        json['note_values'].map<List<String>>((l) => List<String>.from(l)).toList();
 
-    for(int x = 0; x < pages.length; x++){
-      book.notes[pages[x]] = values.elementAt(x);
+      for(int x = 0; x < pages.length; x++){
+        book.notes[pages[x]] = values.elementAt(x);
+      }
     }
+
 
     return book;
   }
