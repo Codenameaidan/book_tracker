@@ -118,7 +118,7 @@ class LibraryRepository {
   }
 
 
-
+  //Return display name of given library enum
   String getLibraryName(Library l){
     if(l == Library.completed){
       return "Have Read";
@@ -130,7 +130,7 @@ class LibraryRepository {
     return "";
   }
 
-
+  //Save as JSON to local file
   void save() async{
     var everything = List<Book>.empty(growable: true);
     everything.addAll(_completedReading);
@@ -138,10 +138,13 @@ class LibraryRepository {
     everything.addAll(_toBeRead);
 
     String jsonBooks = jsonEncode(everything);
-    //print(jsonBooks);
+
     final file = await _localFile;
     file.writeAsString(jsonBooks);
   }
+
+
+  //Load from local file
 
   Future<String> getJson() async{
     final file = await _localFile;
@@ -156,6 +159,7 @@ class LibraryRepository {
     return x;
 
   }
+
   Future<bool> load() async{
     final file = await _localFile;
 
@@ -167,7 +171,9 @@ class LibraryRepository {
     var x = await file.readAsString();
 
     var json = jsonDecode(x);
-    //Iterable m = decoded;
+
+    if(json == null)
+      return false;
 
     List<dynamic> everything = json.map((book) => Book.fromJsonFile(book)).toList();
     for(int x = 0;x<everything.length;x++){
