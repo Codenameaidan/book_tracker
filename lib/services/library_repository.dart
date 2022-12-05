@@ -143,6 +143,19 @@ class LibraryRepository {
     file.writeAsString(jsonBooks);
   }
 
+  Future<String> getJson() async{
+    final file = await _localFile;
+
+    bool exists = await file.exists();
+
+    if(!exists)
+      return "";
+
+    var x = await file.readAsString();
+
+    return x;
+
+  }
   Future<bool> load() async{
     final file = await _localFile;
 

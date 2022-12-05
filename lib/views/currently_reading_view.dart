@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/viewmodels/currently_reading_view_model.dart';
 import '../constants.dart';
+import '../services/settings_controller.dart';
 import '../viewmodels/book_view_model.dart';
 import 'book_view.dart';
 
@@ -35,32 +36,33 @@ final myController = TextEditingController();
             )
         ),//appbar close
         drawer: Drawer(
-          backgroundColor: charcoal,
+          backgroundColor: SettingsController.background1,
           child: Padding(
             padding: const EdgeInsets.only(top: 50),
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Card(child: ListTile(
+                  Card(child: ListTile(
                     title:Text("Currently Reading"),
                     textColor: Colors.white,
-                    tileColor: darkCharcoal,
+                    tileColor: SettingsController.background2
                   )),
                   Card(child: ListTile(
                     title:Text("Want to Read"),
                     textColor: Colors.white,
-                    tileColor: darkCharcoal,
+                   tileColor: SettingsController.background2,
                     onTap:() => Navigator.pushNamed(context, toBeReadRoute)
                   )),
                   Card(child: ListTile(
                     title:Text("Have Read"),
                     textColor: Colors.white,
-                    tileColor: darkCharcoal,
+                   tileColor: SettingsController.background2,
                     onTap:() => Navigator.pushNamed(context, haveReadRoute)
-                  )),const Card(child: ListTile(
+                  )),Card(child: ListTile(
                     title:Text("Settings"),
                     textColor: Colors.white,
-                    tileColor: darkCharcoal,
+                    tileColor: SettingsController.background2,
+                    onTap:() {Navigator.pop(context); Navigator.pushNamed(context, settingsRoute);}
                   )),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reading_tracker/services/settings_controller.dart';
 import 'package:reading_tracker/viewmodels/have_read_view_model.dart';
 import 'package:reading_tracker/viewmodels/to_be_read_view_model.dart';
 import 'services/library_repository.dart';
@@ -19,12 +20,9 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await LibraryRepository().load();
 
-  runApp(
-   /*  ChangeNotifierProvider<CurrReadViewModel>(
-      child: const MyApp(),
-      create: (_) => CurrReadViewModel(),
-    ), */
+  await SettingsController.UpdateColorScheme();
 
+  runApp(
   MultiProvider(
   providers: [
     ChangeNotifierProvider<CurrReadViewModel>(create: (_) => CurrReadViewModel()),
@@ -46,7 +44,7 @@ class MyApp extends StatelessWidget {
       title: 'Book App',
       theme: ThemeData(
         primarySwatch: rubySwatch,
-        scaffoldBackgroundColor: darkCharcoal,
+        scaffoldBackgroundColor:SettingsController.background2,
       ),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: LocalRouter.Router.generateRoute,
