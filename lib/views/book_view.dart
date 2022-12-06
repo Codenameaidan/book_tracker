@@ -28,12 +28,97 @@ class _BookViewState extends State<BookView>{
 
     final myController = TextEditingController();
     final pageController = PageController(initialPage: 0);
-    final noteTextContolller = TextEditingController();
-    final notePageNumberContolller = TextEditingController();
-
+    final noteTextController = TextEditingController();
+    final notePageNumberController = TextEditingController();
+    final pagesReadController = TextEditingController();
 
     BookViewModel book = widget.book;
     Library library = book.getLibrary();
+
+    Widget pageCounter = Text(
+      "Pages Read: ${book.currentPage}",
+      style: const TextStyle(fontSize: 22, color: Colors.white),
+    );
+
+
+    Widget updatePageButton =
+    Padding(padding: const EdgeInsets.all(10), child:
+      ElevatedButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Center(child: Text("Update Pages Read")),
+                content: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Pages Read:"),
+                      TextFormField(
+                        controller: pagesReadController,
+                        keyboardType: TextInputType.number,
+                        onFieldSubmitted:(text) {
+                                var numPages = int.tryParse(text);
+                                if (numPages != null) {
+                                  book.currentPage = book.currentPage + numPages;
+                                  pagesReadController.clear();
+                                  Navigator.pop(context);
+                                }
+                              },
+                        validator: (value) {
+                          if (value == null || value.isEmpty || int.tryParse(value) != null) {
+                            return 'Please enter page number';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed:() {
+                                if (int.tryParse(pagesReadController.text) != null){
+                                  var numPages = int.tryParse(pagesReadController.text);
+                                  if (numPages != null) {
+                                    book.currentPage = book.currentPage + numPages;
+                                    print(book.currentPage);
+                                    pagesReadController.clear();
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              },
+                              child: const Text('Submit'),
+                            )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Cancel'),
+                            )
+                          ),
+                        ]
+                      )
+                    ],
+                  ),
+                )
+              )
+            );
+          },
+          child: const Padding (
+            padding: EdgeInsets.all(5),
+            child: Text('Update Pages'),
+          )
+      )
+    );
 
     Widget addNoteButton =
     Padding(padding: const EdgeInsets.all(10), child:
@@ -52,13 +137,13 @@ class _BookViewState extends State<BookView>{
                     children: [
                       const Text("Page:"),
                       TextFormField(
-                        controller: notePageNumberContolller,
+                        controller: notePageNumberController,
                         keyboardType: TextInputType.number,
                         onFieldSubmitted:(text) {
-                                if (noteTextContolller.text.isNotEmpty && text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(text), noteTextContolller.text);
-                                  noteTextContolller.clear();
-                                  notePageNumberContolller.clear();
+                                if (noteTextController.text.isNotEmpty && text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(text), noteTextController.text);
+                                  noteTextController.clear();
+                                  notePageNumberController.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
@@ -69,19 +154,19 @@ class _BookViewState extends State<BookView>{
                                 }
                               },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.isEmpty || int.tryParse(value) != null) {
                             return 'Please enter page number';
                           }
                           return null;
                         },
                       ),
                       TextFormField(
-                        controller: noteTextContolller,
+                        controller: noteTextController,
                         onFieldSubmitted: (text) {
-                                if (text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(notePageNumberContolller.text), text);
-                                  noteTextContolller.clear();
-                                  notePageNumberContolller.clear();
+                                if (text.isNotEmpty && notePageNumberController.text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(notePageNumberController.text), text);
+                                  noteTextController.clear();
+                                  notePageNumberController.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
@@ -105,10 +190,10 @@ class _BookViewState extends State<BookView>{
                             padding: const EdgeInsets.all(5),
                             child: ElevatedButton(
                               onPressed:() {
-                                if (noteTextContolller.text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(notePageNumberContolller.text), noteTextContolller.text);
-                                  noteTextContolller.clear();
-                                  notePageNumberContolller.clear();
+                                if (noteTextController.text.isNotEmpty && notePageNumberController.text.isNotEmpty && int.tryParse(notePageNumberController.text) != null) {
+                                  book.addNoteToPage(int.parse(notePageNumberController.text), noteTextController.text);
+                                  noteTextController.clear();
+                                  notePageNumberController.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
@@ -144,7 +229,7 @@ class _BookViewState extends State<BookView>{
           )
       )
     );
-    var noteDisplayList = [addNoteButton];
+    var noteDisplayList = [pageCounter, updatePageButton, addNoteButton];
 
     book.notes.forEach((page, noteList) {
       noteDisplayList.add(
