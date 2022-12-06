@@ -16,7 +16,7 @@ class BookView extends StatefulWidget {
 
   BookViewModel book;
 
-  BookView(this.book);
+  BookView(this.book); 
 
   @override
   _BookViewState createState() => _BookViewState();
@@ -38,10 +38,10 @@ class _BookViewState extends State<BookView>{
 
     Widget addNoteButton =
     Padding(padding: const EdgeInsets.all(10), child:
-      ElevatedButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-          ),
+      FloatingActionButton(
+          // style: TextButton.styleFrom(
+          //   textStyle: const TextStyle(fontSize: 20),
+          // ),
           onPressed: () {
             showDialog(
               context: context,
@@ -157,24 +157,30 @@ class _BookViewState extends State<BookView>{
               )
             );
           },
-          child: const Padding (
-            padding: EdgeInsets.all(5),
-            child: Text('Add Note'),
-          )
+        // label: const Text('Approve'),
+        // icon: const Icon(Icons.thumb_up),
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.pink,
+          // child: const Padding (
+          //   padding: EdgeInsets.all(5),
+          //   child: Text('Add Note'),
+          // )
       )
     );
     var noteDisplayList = [addNoteButton];
 
     book.notes.forEach((page, noteList) {
-      noteDisplayList.add(
-        Text("$page")
-      );
-      noteList.forEach((note) {
-        if(note.isNotEmpty) {
-          noteDisplayList.add(Text("$note"));
-        }
-      });
-    });
+      //noteDisplayList.add(
+        //Text("$page")
+      //);
+      //noteList.forEach((note) {
+        //if(note.isNotEmpty) {
+          //noteDisplayList.add(Text("$note"));
+        //}
+      //});
+    }
+     
+  );
 
 
     return Scaffold(
@@ -395,12 +401,29 @@ class _BookViewState extends State<BookView>{
                 )
               ]
             ),
-            ListView(
-              children: noteDisplayList
-            )
-          ],
-
+            //addNoteButton,
+            ListView.separated(
+              padding: const EdgeInsets.all(8),
+              itemCount: book.notes.length,
+              itemBuilder: (BuildContext context, int index) {
+                int key = book.notes.keys.elementAt(index);
+                //addNoteButton;
+                return Column(
+                  children:[ 
+                     ListTile(
+                      title: Text("Page : $key"),
+                      subtitle: Text("${book.notes[key]}"),
+                    ),
+                    //addNoteButton
+                  ]
+                );
+              }, separatorBuilder: (BuildContext context, int index) => const Divider(),
+            ),
+            //noteDisplayList
+            addNoteButton
+          ], //children 
         )
+        //addNoteButton
     );
   }
 }
