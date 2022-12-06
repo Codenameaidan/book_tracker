@@ -68,12 +68,12 @@ class BookViewModel {
     return this.book.notes;
   }
 
-  int get currentPage {
+int get currentPage {
     return this.book.currentPage;
   }
 
-  void set currentPage(int newPage) {
-    currentPage = newPage;
+  set currentPage(int newPage) {
+    this.book.currentPage = newPage;
   }
 
   void addNoteToPage(int page, String note){
@@ -86,6 +86,6 @@ class BookViewModel {
 
     LibraryRepository().save();
   }
-  
+
 }
 

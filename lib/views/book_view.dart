@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/services/library_repository.dart';
 import 'package:readmore/readmore.dart';
@@ -28,12 +29,97 @@ class _BookViewState extends State<BookView>{
 
     final myController = TextEditingController();
     final pageController = PageController(initialPage: 0);
-    final noteTextContolller = TextEditingController();
-    final notePageNumberContolller = TextEditingController();
-
+    final noteTextController = TextEditingController();
+    final notePageNumberController = TextEditingController();
+    final pagesReadController = TextEditingController();
 
     BookViewModel book = widget.book;
     Library library = book.getLibrary();
+
+    Widget pageCounter = Text(
+      "Pages Read: ${book.currentPage}",
+      style: const TextStyle(fontSize: 22, color: Colors.white),
+    );
+
+
+    Widget updatePageButton =
+    Padding(padding: const EdgeInsets.all(10), child:
+      ElevatedButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Center(child: Text("Update Pages Read")),
+                content: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Pages Read:"),
+                      TextFormField(
+                        controller: pagesReadController,
+                        keyboardType: TextInputType.number,
+                        onFieldSubmitted:(text) {
+                                var numPages = int.tryParse(text);
+                                if (numPages != null) {
+                                  book.currentPage = book.currentPage + numPages;
+                                  pagesReadController.clear();
+                                  Navigator.pop(context);
+                                }
+                              },
+                        validator: (value) {
+                          if (value == null || value.isEmpty || int.tryParse(value) != null) {
+                            return 'Please enter page number';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed:() {
+                                if (int.tryParse(pagesReadController.text) != null){
+                                  var numPages = int.tryParse(pagesReadController.text);
+                                  if (numPages != null) {
+                                    book.currentPage = book.currentPage + numPages;
+                                    print(book.currentPage);
+                                    pagesReadController.clear();
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              },
+                              child: const Text('Submit'),
+                            )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Cancel'),
+                            )
+                          ),
+                        ]
+                      )
+                    ],
+                  ),
+                )
+              )
+            );
+          },
+          child: const Padding (
+            padding: EdgeInsets.all(5),
+            child: Text('Update Pages'),
+          )
+      )
+    );
 
     Widget addNoteButton =
     Padding(padding: const EdgeInsets.all(10), child:
@@ -50,15 +136,24 @@ class _BookViewState extends State<BookView>{
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Page:"),
                       TextFormField(
-                        controller: notePageNumberContolller,
+
+                        controller: noteTextController,
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.bookmark_add),
+                        hintText: 'Input numbers only',
+                        labelText: 'Page Number ',
+                         ),
+
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                         ],
                         onFieldSubmitted:(text) {
-                                if (noteTextContolller.text.isNotEmpty && text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(text), noteTextContolller.text);
-                                  noteTextContolller.clear();
-                                  notePageNumberContolller.clear();
+                                if (noteTextController.text.isNotEmpty && text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(text), noteTextController.text);
+                                  noteTextController.clear();
+                                  notePageNumberController.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
@@ -69,34 +164,47 @@ class _BookViewState extends State<BookView>{
                                 }
                               },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null || value.isEmpty || int.tryParse(value) != null) {
                             return 'Please enter page number';
                           }
                           return null;
                         },
                       ),
-                      TextFormField(
-                        controller: noteTextContolller,
-                        onFieldSubmitted: (text) {
-                                if (text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(notePageNumberContolller.text), text);
-                                  noteTextContolller.clear();
-                                  notePageNumberContolller.clear();
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => BookView(book)),
-                                  );
-                                  pageController.jumpToPage(1);
+
+                      Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null, //grow automatically
+                              controller: noteTextController,
+                              decoration: const InputDecoration(
+                              icon: Icon(Icons.notes),
+                              labelText: 'Notes ',
+                              ),
+                              onFieldSubmitted: (text) {
+                                      if (text.isNotEmpty && noteTextController.text.isNotEmpty) {
+                                        book.addNoteToPage(int.parse(noteTextController.text), text);
+                                        noteTextController.clear();
+                                        noteTextController.clear();
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => BookView(book)),
+                                        );
+                                        pageController.jumpToPage(1);
+                                      }
+                                    },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+
                                 }
+                                return null;
                               },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                            ),
+                          ),
                       ),
                       Row (
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,10 +213,10 @@ class _BookViewState extends State<BookView>{
                             padding: const EdgeInsets.all(5),
                             child: ElevatedButton(
                               onPressed:() {
-                                if (noteTextContolller.text.isNotEmpty && notePageNumberContolller.text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(notePageNumberContolller.text), noteTextContolller.text);
-                                  noteTextContolller.clear();
-                                  notePageNumberContolller.clear();
+                                if (noteTextController.text.isNotEmpty && notePageNumberController.text.isNotEmpty && int.tryParse(notePageNumberController.text) != null) {
+                                  book.addNoteToPage(int.parse(notePageNumberController.text), noteTextController.text);
+                                  noteTextController.clear();
+                                  notePageNumberController.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                   Navigator.of(context).push(
@@ -144,7 +252,7 @@ class _BookViewState extends State<BookView>{
           )
       )
     );
-    var noteDisplayList = [addNoteButton];
+    var noteDisplayList = [pageCounter, updatePageButton, addNoteButton];
 
     book.notes.forEach((page, noteList) {
       noteDisplayList.add(
