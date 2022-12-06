@@ -74,6 +74,8 @@ int get currentPage {
 
   set currentPage(int newPage) {
     this.book.currentPage = newPage;
+
+    LibraryRepository().save();
   }
 
   void addNoteToPage(int page, String note){

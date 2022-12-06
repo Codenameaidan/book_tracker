@@ -27,6 +27,8 @@ class _BookViewState extends State<BookView>{
   @override
   Widget build(BuildContext context) {
 
+    
+
     final myController = TextEditingController();
     final pageController = PageController(initialPage: 0);
     final noteTextController = TextEditingController();
@@ -36,12 +38,12 @@ class _BookViewState extends State<BookView>{
     BookViewModel book = widget.book;
     Library library = book.getLibrary();
 
-    Widget pageCounter = Text(
+    Widget pageCounter = Center(child:Text(
       "Pages Read: ${book.currentPage}",
       style: const TextStyle(fontSize: 22, color: Colors.white),
-    );
+    ));
 
-
+    bool bookInLibrary = LibraryRepository().bookExistsAnywhere(book.book);
     Widget updatePageButton =
     Padding(padding: const EdgeInsets.all(10), child:
       ElevatedButton(
@@ -88,9 +90,15 @@ class _BookViewState extends State<BookView>{
                                   var numPages = int.tryParse(pagesReadController.text);
                                   if (numPages != null) {
                                     book.currentPage = book.currentPage + numPages;
-                                    print(book.currentPage);
+                                    
                                     pagesReadController.clear();
                                     Navigator.pop(context);
+                                     
+                                    Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => new BookView(new BookViewModel(book: book.book)),
+                                    ),
+                          );
                                   }
                                 }
                               },
@@ -138,7 +146,7 @@ class _BookViewState extends State<BookView>{
                     children: [
                       TextFormField(
 
-                        controller: noteTextController,
+                        controller: notePageNumberController,
                         decoration: const InputDecoration(
                         icon: Icon(Icons.bookmark_add),
                         hintText: 'Input numbers only',
@@ -150,9 +158,9 @@ class _BookViewState extends State<BookView>{
                         FilteringTextInputFormatter.digitsOnly
                          ],
                         onFieldSubmitted:(text) {
-                                if (noteTextController.text.isNotEmpty && text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(text), noteTextController.text);
-                                  noteTextController.clear();
+                                if (notePageNumberController.text.isNotEmpty && text.isNotEmpty) {
+                                  book.addNoteToPage(int.parse(text), notePageNumberController.text);
+                                  notePageNumberController.clear();
                                   notePageNumberController.clear();
                                   Navigator.pop(context);
                                   Navigator.pop(context);
@@ -256,21 +264,30 @@ class _BookViewState extends State<BookView>{
 
     book.notes.forEach((page, noteList) {
       noteDisplayList.add(
-        Text("$page")
+        Text(
+          "\nPage $page", 
+          style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+        )
       );
       noteList.forEach((note) {
         if(note.isNotEmpty) {
-          noteDisplayList.add(Text("$note"));
+          noteDisplayList.add(
+             Text(" $note", style: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
+          );
         }
       });
     });
 
 
     return Scaffold(
+      
         appBar: AppBar(
           actions: [
-            IconButton(icon: Icon(Icons.arrow_back_ios), onPressed:() => pageController.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn)),
-            IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed:() => pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn)),
+            if(bookInLibrary)...[
+              IconButton(icon: Icon(Icons.arrow_back_ios), onPressed:() => pageController.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn)),
+            
+              IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed:() => pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.fastLinearToSlowEaseIn))
+              ],
           ],
           title: TextFormField(
             controller: myController,
@@ -485,7 +502,11 @@ class _BookViewState extends State<BookView>{
               ]
             ),
             ListView(
-              children: noteDisplayList
+              children: 
+              bookInLibrary ? noteDisplayList : [],
+            
+          
+              
             )
           ],
 
