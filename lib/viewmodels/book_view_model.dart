@@ -68,7 +68,7 @@ class BookViewModel {
     return this.book.notes;
   }
 
-  int get currentPage {
+int get currentPage {
     return this.book.currentPage;
   }
 

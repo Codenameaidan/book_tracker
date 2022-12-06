@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:reading_tracker/services/library_repository.dart';
 import 'package:readmore/readmore.dart';
@@ -135,10 +136,19 @@ class _BookViewState extends State<BookView>{
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Page:"),
                       TextFormField(
-                        controller: notePageNumberController,
+
+                        controller: noteTextController,
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.bookmark_add),
+                        hintText: 'Input numbers only',
+                        labelText: 'Page Number ',
+                         ),
+
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                         ],
                         onFieldSubmitted:(text) {
                                 if (noteTextController.text.isNotEmpty && text.isNotEmpty) {
                                   book.addNoteToPage(int.parse(text), noteTextController.text);
@@ -160,28 +170,41 @@ class _BookViewState extends State<BookView>{
                           return null;
                         },
                       ),
-                      TextFormField(
-                        controller: noteTextController,
-                        onFieldSubmitted: (text) {
-                                if (text.isNotEmpty && notePageNumberController.text.isNotEmpty) {
-                                  book.addNoteToPage(int.parse(notePageNumberController.text), text);
-                                  noteTextController.clear();
-                                  notePageNumberController.clear();
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => BookView(book)),
-                                  );
-                                  pageController.jumpToPage(1);
+
+                      Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null, //grow automatically
+                              controller: noteTextController,
+                              decoration: const InputDecoration(
+                              icon: Icon(Icons.notes),
+                              labelText: 'Notes ',
+                              ),
+                              onFieldSubmitted: (text) {
+                                      if (text.isNotEmpty && noteTextController.text.isNotEmpty) {
+                                        book.addNoteToPage(int.parse(noteTextController.text), text);
+                                        noteTextController.clear();
+                                        noteTextController.clear();
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => BookView(book)),
+                                        );
+                                        pageController.jumpToPage(1);
+                                      }
+                                    },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+
                                 }
+                                return null;
                               },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                            ),
+                          ),
                       ),
                       Row (
                         mainAxisAlignment: MainAxisAlignment.center,
