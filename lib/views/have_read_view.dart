@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
+import '../services/library_repository.dart';
 import '../services/settings_controller.dart';
 import '../viewmodels/book_view_model.dart';
 import '../viewmodels/have_read_view_model.dart';
@@ -104,6 +105,7 @@ final myController = TextEditingController();
                             context
                                 .read<HaveReadViewModel>()
                                 .removeFromList(currentBook);
+                                LibraryRepository().save();
                             }
                         ),//icon button close
                         //once you click on the book takes you to book view

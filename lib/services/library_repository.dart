@@ -89,6 +89,15 @@ class LibraryRepository {
     save();
   }
 
+  bool bookExistsAnywhere(Book b){
+    if(bookExistsInCurrent(b))
+      return true;
+    if(bookExistsInCompleted(b))
+      return true;
+    if(bookExistsInToBeRead(b))
+      return true;
+    return false;
+  }
   //See if book already exists, by id.
   bool bookExistsInCurrent(Book b){
     for(int i = 0; i< _currentlyReading.length; i++){
