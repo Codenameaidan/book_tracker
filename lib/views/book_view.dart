@@ -262,21 +262,7 @@ class _BookViewState extends State<BookView>{
     );
     var noteDisplayList = [pageCounter, updatePageButton, addNoteButton];
 
-    book.notes.forEach((page, noteList) {
-      noteDisplayList.add(
-        Text(
-          "\nPage $page", 
-          style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
-        )
-      );
-      noteList.forEach((note) {
-        if(note.isNotEmpty) {
-          noteDisplayList.add(
-             Text(" $note", style: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
-          );
-        }
-      });
-    });
+   
 
 
     return Scaffold(
@@ -501,14 +487,47 @@ class _BookViewState extends State<BookView>{
                 )
               ]
             ),
-            ListView(
+              
+            Column(
+              
+              children: [
+              Expanded(child:ListView(
               children: 
-              bookInLibrary ? noteDisplayList : [],
+              
+                noteDisplayList
+                
+              )),
+              Expanded(child:ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              itemCount: book.notes.length,
+              itemBuilder: (BuildContext context, int index) {
+                int key = book.notes.keys.elementAt(index);
+                //addNoteButton;
+                return Column(
+                  children:[ 
+                     ListTile(
+                      title: Text("Page : $key", style: const TextStyle(fontSize: 22, color: Colors.white),),
+                      subtitle: Text("${book.notes[key]}", style: const TextStyle(fontSize: 15, color: Colors.white),),
+                    ),
+                    //addNoteButton
+                  ]
+                );
+              }, separatorBuilder: (BuildContext context, int index) => const Divider(),
+            ),
+            )]),
             
+           
           
               
-            )
-          ],
+            
+            
+            //noteDisplayList
+            
+          ], //children 
+            
+         
 
         )
     );
