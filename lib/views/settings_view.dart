@@ -32,10 +32,10 @@ class SettingsView extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 20),
-          const Center( child:
-            const Text(
+          Center( child:
+            Text(
             "Settings",
-            style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 30, color: SettingsController.foreground, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
             )
           ),
@@ -44,7 +44,7 @@ class SettingsView extends StatelessWidget {
             
             children: [
             SizedBox(width: 20),
-            Text("Light Mode",style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+            Text("Light Mode",style: TextStyle(fontSize: 20, color: SettingsController.foreground, fontWeight: FontWeight.bold),),
           FutureBuilder( 
             future: SharedPreferences.getInstance(), //prefs.getBool('lightMode'),
             builder: (context, snapshot) {
@@ -86,7 +86,7 @@ class SettingsView extends StatelessWidget {
             Container(
             margin: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: 
-            Center(child: Text("Created by Matthew Glazar, Aidan Walsh, and Dominique Mittermeier",style: TextStyle(fontSize:15, color: Colors.white, fontWeight: FontWeight.bold),),
+            Center(child: Text("Created by Matthew Glazar, Aidan Walsh, and Dominique Mittermeier",style: TextStyle(fontSize:15, color: SettingsController.foreground, fontWeight: FontWeight.bold),),
       ))],
       )
     );

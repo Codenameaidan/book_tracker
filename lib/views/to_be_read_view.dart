@@ -45,25 +45,25 @@ final myController = TextEditingController();
                 children: [
                   Card(child: ListTile(
                     title:const Text("Currently Reading"),
-                    textColor: Colors.white,
+                    textColor: SettingsController.foreground,
                     tileColor: SettingsController.background2,
                     onTap:() => Navigator.pushNamed(context, homeRoute)
                   )),
                   Card(child: ListTile(
                     title:Text("Want to Read"),
-                    textColor: Colors.white,
+                    textColor: SettingsController.foreground,
                     tileColor: SettingsController.background2,
                   )),
                   Card(child: ListTile(
                     title:Text("Have Read"),
-                    textColor: Colors.white,
+                    textColor: SettingsController.foreground,
                     tileColor: SettingsController.background2,
                     onTap:() => Navigator.pushNamed(context, haveReadRoute)
                   )),
                   Card(child: ListTile(
                     title:Text("Settings"),
-                    textColor: Colors.white,
-                    tileColor: SettingsController.background1,
+                    textColor: SettingsController.foreground,
+                    tileColor: SettingsController.background2,
                     onTap:() {Navigator.pop(context); Navigator.pushNamed(context, settingsRoute);}
                   )),
                 ],
@@ -80,7 +80,7 @@ final myController = TextEditingController();
             const SizedBox(
               height: 15,
             ),
-            const Text("Want to Read", style: TextStyle(fontSize: 22, color: Colors.white)),
+             Text("Want to Read", style: TextStyle(fontSize: 22, color: SettingsController.foreground)),
             Expanded(
               child: ListView.builder(
                   itemCount: currList.length,
