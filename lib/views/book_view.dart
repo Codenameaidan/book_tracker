@@ -40,7 +40,7 @@ class _BookViewState extends State<BookView>{
 
     Widget pageCounter = Center(child:Text(
       "Pages Read: ${book.currentPage}",
-      style: const TextStyle(fontSize: 22, color: Colors.white),
+      style: TextStyle(fontSize: 22, color: SettingsController.foreground),
     ));
 
     bool bookInLibrary = LibraryRepository().bookExistsAnywhere(book.book);
@@ -321,7 +321,7 @@ class _BookViewState extends State<BookView>{
                   child: SizedBox(
                     child: Text(
                       book.title,
-                      style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, color: SettingsController.foreground, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -331,9 +331,9 @@ class _BookViewState extends State<BookView>{
                   child: SizedBox(
                     child: Text(
                       "${book.rating}/5.0   (${book.numRatings}) Reviews",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white
+                        color: SettingsController.foreground
                       ),
                       textAlign: TextAlign.center,
                     )
@@ -344,9 +344,9 @@ class _BookViewState extends State<BookView>{
                   child: SizedBox(
                     child: Text(
                       "By ${book.author}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: SettingsController.foreground,
                         fontWeight: FontWeight.bold
                       ),
                       textAlign: TextAlign.center,
@@ -357,9 +357,9 @@ class _BookViewState extends State<BookView>{
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Text(
                     "Published by ${book.publisher}",
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white
+                        color:SettingsController.foreground,
                       ),
                     textAlign: TextAlign.center,
                   )
@@ -372,8 +372,8 @@ class _BookViewState extends State<BookView>{
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Show more',
                     trimExpandedText: ' Show less',
-                    style: const TextStyle(
-                      color: Colors.white70,
+                    style: TextStyle(
+                      color: SettingsController.foreground,
                       fontSize: 14,
                     ),
                     moreStyle: const TextStyle(
@@ -394,31 +394,31 @@ class _BookViewState extends State<BookView>{
                   items: [
 
                      if(library != Library.toBeRead)...[
-                    const DropdownMenuItem(value: 1, child: Center(
+                     DropdownMenuItem(value: 1, child: Center(
                       child: Text(
                       "Want to Read",
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: SettingsController.foreground,
                         fontWeight: FontWeight.bold
                     ))))],
 
                     if(library != Library.reading)...[
-                      const DropdownMenuItem(value: 2, child: Center(child: Text(
+                      DropdownMenuItem(value: 2, child: Center(child: Text(
                         "Currently Reading",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+                          color: SettingsController.foreground,
                           fontWeight: FontWeight.bold
                       ))))
                     ],
 
                     if(library != Library.completed)...[
-                    const DropdownMenuItem(value: 3, child: Center(child: Text(
+                    DropdownMenuItem(value: 3, child: Center(child: Text(
                       "Have Read",
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: SettingsController.foreground,
                         fontWeight: FontWeight.bold
                     ))))],
                   ],
@@ -508,8 +508,8 @@ class _BookViewState extends State<BookView>{
                 return Column(
                   children:[ 
                      ListTile(
-                      title: Text("Page : $key", style: const TextStyle(fontSize: 22, color: Colors.white),),
-                      subtitle: Text("${book.notes[key]}", style: const TextStyle(fontSize: 15, color: Colors.white),),
+                      title: Text("Page : $key", style: TextStyle(fontSize: 22, color: SettingsController.foreground),),
+                      subtitle: Text("${book.notes[key]}", style: TextStyle(fontSize: 15, color: SettingsController.foreground),),
                     ),
                     //addNoteButton
                   ]

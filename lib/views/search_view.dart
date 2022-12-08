@@ -62,7 +62,7 @@ class SearchView extends StatelessWidget {
                                     Expanded(
                                       flex: 5,
                                       child: Text(
-                                          style: TextStyle(fontSize: 22, color: Colors.white),
+                                          style: TextStyle(fontSize: 22, color: SettingsController.foreground),
                                           textAlign: TextAlign.center,
                                           book.title
                                       )
@@ -71,7 +71,7 @@ class SearchView extends StatelessWidget {
                                       flex: 2,
                                       child:  Text(
                                         "By ${book.author}",
-                                        style: TextStyle(fontSize: 18, color: Colors.white),
+                                        style: TextStyle(fontSize: 18, color: SettingsController.foreground),
                                         textAlign: TextAlign.center,
                                         )
                                     ),
