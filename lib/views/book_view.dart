@@ -93,12 +93,13 @@ class _BookViewState extends State<BookView>{
                                     
                                     pagesReadController.clear();
                                     Navigator.pop(context);
+                                    Navigator.pop(context);
                                      
                                     Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => new BookView(new BookViewModel(book: book.book)),
                                     ),
-                          );
+                                    );
                                   }
                                 }
                               },
